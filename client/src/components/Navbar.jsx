@@ -1,0 +1,113 @@
+import React, { useState } from "react";
+import { assets, menuLinks } from "../assets/assets.js";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+
+const Navbar = ({ setShowLogin }) => {
+  const location = useLocation();
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const isHome = location.pathname === "/";
+
+  return (
+
+  <header className="sticky top-0 z-50 w-full py-3 px-4 sm:px-6 flex justify-center">
+    
+      <nav className={`w-full max-w-7xl h-16 px-6 flex items-center justify-between rounded-full transition-all duration-300 ${
+        isHome ? 'bg-light/90 border border-borderColor/60 shadow-lg' : 'bg-white/90 border border-borderColor/60 shadow-lg'
+      } backdrop-blur-md`}>
+        
+     
+        <NavLink to='/' className="flex items-center gap-2">
+          <img src={assets.firefly} alt="Logo" className="h-12 sm:h-14 w-auto object-contain" />
+        </NavLink>
+
+       
+        <div className={`
+          absolute top-full right-4 sm:right-8 z-40 w-72 bg-white/95 backdrop-blur-xl shadow-2xl p-6 rounded-3xl flex flex-col justify-between transition-transform duration-300 ease-in-out 
+          md:static md:top-auto md:right-auto md:h-auto md:w-auto md:bg-gray-100/80 md:border md:border-borderColor/50 md:shadow-inner md:p-1.5 md:flex-row md:items-center md:rounded-full md:gap-1
+          ${open ? 'translate-x-0' : 'translate-x-[120%]'} md:translate-x-0
+        `}>
+          
+        
+          <div className="flex items-center justify-between md:hidden pb-4 border-b border-gray-100">
+            <span className="font-bold text-gray-800 text-lg">Menu</span>
+          </div>
+
+          <div className="flex flex-col md:flex-row md:items-center gap-1 mt-4 md:mt-0">
+            {menuLinks.map((link, index) => (
+              <NavLink
+                key={index}
+                to={link.path}
+                onClick={() => setOpen(false)}
+                className={({ isActive }) =>
+                  `px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 text-center ${
+                    isActive 
+                      ? 'bg-white text-gray-900 shadow-sm font-semibold' 
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-white/50'
+                  }`
+                }
+              >
+                {link.name}
+              </NavLink>
+            ))}
+          </div>
+
+       
+          <div className="flex items-center gap-2 bg-white/80 border border-gray-200 md:border-none rounded-full px-3.5 py-1.5 my-3 md:my-0 shadow-xs md:shadow-none">
+            <input 
+              type="text" 
+              placeholder="Search..." 
+              className="bg-transparent text-sm outline-hidden w-full md:w-28 xl:w-36 text-gray-700 placeholder-gray-400"
+            />
+            <img src={assets.search_icon} alt="search" className="w-4 h-4 opacity-50" />
+          </div>
+
+          <div className="flex flex-col gap-2 pt-4 border-t border-gray-100 md:hidden">
+            <button 
+              onClick={() => { navigate("/owner"); setOpen(false); }}
+              className="w-full py-2.5 rounded-full text-sm font-medium text-gray-700 bg-gray-50 border border-borderColor text-center"
+            >
+              Dashboard
+            </button>
+            <button 
+              onClick={() => { setShowLogin(true); setOpen(false); }}
+              className="w-full py-2.5 rounded-full text-sm font-medium text-white bg-linear-to-r from-primary via-blue-600 to-indigo-600 shadow-md shadow-primary/25 text-center"
+            >
+              Login
+            </button>
+          </div>
+        </div>
+
+       
+        <div className="hidden md:flex items-center gap-3">
+          <button 
+            onClick={() => navigate("/owner")}
+            className="px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:text-primary transition-colors"
+          >
+            Dashboard
+          </button>
+          <button 
+            onClick={() => setShowLogin(true)}
+            className="px-6 py-2.5 rounded-full text-sm font-medium text-white bg-linear-to-r from-primary via-blue-600 to-indigo-600 hover:opacity-95 shadow-lg shadow-primary/25 transition-all duration-300 hover:scale-[1.02]"
+          >
+            Login
+          </button>
+        </div>
+
+        
+        <button
+          onClick={() => setOpen(!open)}
+          className="md:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100 focus:outline-hidden transition-colors z-50"
+          aria-label="Toggle Menu"
+        >
+          <img src={open ? assets.close_icon : assets.menu_icon} alt="menu" className="w-6 h-6" />
+        </button>
+
+      </nav>
+    </header>
+
+   
+  );
+};
+
+export default Navbar;
