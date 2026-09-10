@@ -9,16 +9,20 @@ const CarCard = ({ car }) => {
   return (
    <div 
       onClick={() => { navigate(`/car-details/${car._id}`); scrollTo(0,0); }}
-      className="group bg-slate-800/80 backdrop-blur-md border border-slate-700/80 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl hover:border-amber-500/50 transition-all duration-300 cursor-pointer flex flex-col justify-between"
+      className="group bg-slate-800/80 backdrop-blur-md border border-slate-700/80 
+      rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl hover:border-amber-500/50 transition-all duration-300 
+      cursor-pointer flex flex-col justify-between"
     >
      
       <div className="p-4 pb-0 flex items-center justify-between z-10">
         {car.isAvaliable ? (
-          <span className="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold px-2.5 py-1 rounded-full backdrop-blur-md">
+          <span className="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs 
+          font-semibold px-2.5 py-1 rounded-full backdrop-blur-md">
             Available Now
           </span>
         ) : (
-          <span className="bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs font-semibold px-2.5 py-1 rounded-full backdrop-blur-md">
+          <span className="bg-rose-500/10 border border-rose-500/30 text-rose-400 
+          text-xs font-semibold px-2.5 py-1 rounded-full backdrop-blur-md">
             Rented
           </span>
         )}
