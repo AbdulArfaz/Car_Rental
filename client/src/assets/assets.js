@@ -42,10 +42,12 @@ import car_image3 from "./car_image3.png"
 import car_image4 from "./car_image4.png"
 
 import firefly from './firefly-car-rental.jpg'
+import nissan from './nissan-sasanka.png'
 
-export const cityList = ['New York', 'Los Angeles', 'Houston', 'Chicago']
+export const cityList = ['Tezpur', 'Jorhat', 'Guwahahti', 'Dibrugarh', 'Nogaon', 'Dhubri', 'Tinsukiya', 'Morigoan', 'Dhemaji', 'Sivsagar', 'BiswaNath']
 
 export const assets = {
+    nissan,
     firefly,
     logo,
     gmail_logo,
@@ -115,24 +117,24 @@ export const dummyUserData = {
 export const dummyCarData = [
     {
         "_id": "67ff5bc069c03d4e45f30b77",
-        "owner": "67fe3467ed8a8fe17d0ba6e2",
-        "brand": "BMW",
-        "model": "X5",
-        "image": car_image1,
-        "year": 2006,
+        "owner": "Sasanka Neog",
+        "brand": "Nissan",
+        "model": "Patrol V8",
+        "image": nissan,
+        "year": 2026,
         "category": "SUV",
         "seating_capacity": 4,
         "fuel_type": "Hybrid",
         "transmission": "Semi-Automatic",
         "pricePerDay": 300,
-        "location": "New York",
-        "description": "The BMW X5 is a mid-size luxury SUV produced by BMW. The X5 made its debut in 1999 as the first SUV ever produced by BMW.",
+        "location": "Jorhat",
+        "description": "The Nissan Patrol is a legendary full-size, body-on-frame SUV renowned worldwide for its exceptional off-road capability and rugged durability.",
         "isAvaliable": true,
         "createdAt": "2025-04-16T07:26:56.215Z",
     },
     {
         "_id": "67ff6b758f1b3684286a2a65",
-        "owner": "67fe3467ed8a8fe17d0ba6e2",
+        "owner": "Diganta Das",
         "brand": "Toyota",
         "model": "Corolla",
         "image": car_image2,
@@ -142,14 +144,14 @@ export const dummyCarData = [
         "fuel_type": "Diesel",
         "transmission": "Manual",
         "pricePerDay": 130,
-        "location": "Chicago",
+        "location": "Nogaon",
         "description": "The Toyota Corolla is a mid-size luxury sedan produced by Toyota. The Corolla made its debut in 2008 as the first sedan ever produced by Toyota.",
         "isAvaliable": true,
         "createdAt": "2025-04-16T08:33:57.993Z",
     },
     {
         "_id": "67ff6b9f8f1b3684286a2a68",
-        "owner": "67fe3467ed8a8fe17d0ba6e2",
+        "owner": "Aditya Dutta",
         "brand": "Jeep ",
         "model": "Wrangler",
         "image": car_image3,
@@ -159,14 +161,14 @@ export const dummyCarData = [
         "fuel_type": "Hybrid",
         "transmission": "Automatic",
         "pricePerDay": 200,
-        "location": "Los Angeles",
+        "location": "Dibrugarh",
         "description": "The Jeep Wrangler is a mid-size luxury SUV produced by Jeep. The Wrangler made its debut in 2003 as the first SUV ever produced by Jeep.",
         "isAvaliable": true,
         "createdAt": "2025-04-16T08:34:39.592Z",
     },
     {
         "_id": "68009c93a3f5fc6338ea7e34",
-        "owner": "67fe3467ed8a8fe17d0ba6e2",
+        "owner": "A Arfaz",
         "brand": "Ford",
         "model": "Neo 6",
         "image": car_image4,
@@ -176,7 +178,7 @@ export const dummyCarData = [
         "fuel_type": "Diesel",
         "transmission": "Semi-Automatic",
         "pricePerDay": 209,
-        "location": "Houston",
+        "location": "Tezpur",
         "description": "This is a mid-size luxury sedan produced by Toyota. The Corolla made its debut in 2008 as the first sedan ever produced by Toyota.",
         "isAvaliable": true,
         "createdAt": "2025-04-17T06:15:47.318Z",
