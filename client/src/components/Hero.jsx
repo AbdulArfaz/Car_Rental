@@ -12,7 +12,7 @@ const Hero = () => {
         <div className="lg:col-span-7 flex flex-col items-start space-y-8">
           <div className="space-y-4">
             <span className="text-amber-400 font-medium tracking-widest uppercase text-xs sm:text-sm bg-amber-400/10 px-3.5 py-1 rounded-full border border-amber-400/20">
-              Elite Fleet
+              FireFly
             </span>
             <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight">
               Experience Ultimate{" "}
