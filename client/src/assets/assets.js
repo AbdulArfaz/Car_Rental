@@ -1,4 +1,5 @@
 import logo from "./logo.svg";
+import mainlogo from './mainlogo.png'
 import gmail_logo from "./gmail_logo.svg";
 import facebook_logo from "./facebook_logo.svg";
 import instagram_logo from "./instagram_logo.svg";
@@ -43,6 +44,7 @@ import car_image4 from "./car_image4.png";
 
 import firefly from "./firefly-car-rental.jpg";
 import nissan from "./nissan-sasanka.png";
+import fireflylogo from './fireflylogo.png';
 
 export const cityList = [
   "Tezpur",
@@ -52,13 +54,15 @@ export const cityList = [
   "Nogaon",
   "Dhubri",
   "Tinsukiya",
-  "Morigoan",
+  "Tinsukiya",
   "Dhemaji",
   "Sivsagar",
   "BiswaNath",
 ];
 
 export const assets = {
+  fireflylogo,
+  mainlogo,
   nissan,
   firefly,
   logo,
@@ -140,7 +144,7 @@ export const adminMenuLinks = [
 
 export const UserData = {
   _id: "6847f7cab3d8daecdb517095",
-  name: "GreatStack",
+  name: "James Arfaz",
   email: "admin@example.com",
   role: "owner",
   image: user_profile,
