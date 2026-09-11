@@ -1,11 +1,119 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import { assets, CarData } from "../../assets/assets";
 
 const ManageCars = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+  const [cars, setCars] = useState([]);
+  const currency = import.meta.env.VITE_CURRENCY;
+  const fetchOwnerCars = async () => {
+    setCars(CarData);
+  };
 
-export default ManageCars
+  useEffect(() => {
+    fetchOwnerCars();
+  }, []);
+
+  return (
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto bg-linear-to-tr from-[#E0F7FA] via-[#B2EBF2] to-[#80DEEA] border border-cyan-300 rounded-3xl shadow-2xl p-6 sm:p-10 text-slate-900">
+        <div className="mb-8">
+          <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+            Manage Cars
+          </h2>
+          <p className="text-sm text-cyan-950 opacity-90 mt-1">
+            View all listed cars, update their details, or remove them from the
+            inventory.
+          </p>
+        </div>
+
+        <div className="overflow-x-auto bg-white/60 border border-cyan-200 rounded-2xl shadow-sm">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="border-b border-cyan-200 bg-white/40">
+                <th className="py-4 px-4 text-xs font-black uppercase tracking-wider text-cyan-950">
+                  Car
+                </th>
+                <th className="py-4 px-4 text-xs font-black uppercase tracking-wider text-cyan-950">
+                  Category
+                </th>
+                <th className="py-4 px-4 text-xs font-black uppercase tracking-wider text-cyan-950">
+                  Price
+                </th>
+                <th className="py-4 px-4 text-xs font-black uppercase tracking-wider text-cyan-950">
+                  Status
+                </th>
+                <th className="py-4 px-4 text-xs font-black uppercase tracking-wider text-cyan-950">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-cyan-100">
+              {cars.map((car, index) => (
+                <tr key={index} className="hover:bg-white/50 transition-all">
+                  <td className="py-4 px-4">
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={car.image}
+                        alt="image"
+                        className="w-14 h-14 object-cover rounded-xl shadow-md"
+                      />
+                      <div className="flex flex-col">
+                        <p className="font-bold text-slate-900 text-sm">
+                          {car.brand} {car.model}
+                        </p>
+                        <p className="text-xs text-slate-600">
+                          {car.seating_capacity} . {car.transmission}
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+
+                  <td className="py-4 px-4 text-sm font-medium text-slate-800">
+                    {car.category}
+                  </td>
+
+                  <td className="py-4 px-4 text-sm font-semibold text-slate-900">
+                    {currency}
+                    {car.pricePerDay}/day
+                  </td>
+
+                  <td className="py-4 px-4">
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-bold ${car.isAvailable ? " bg-green-100 text-green-500" : " bg-red-100 text-red-500"}`}
+                    >
+                      {car.isAvailable ? "Available" : "Unavailable"}
+                    </span>
+                  </td>
+
+                  <td className="py-4 px-4">
+                    <div className="flex items-center gap-3">
+                      <div className="p-3 bg-cyan-200/90 hover:bg-cyan-300 border border-cyan-300 rounded-2xl transition-all cursor-pointer shadow-md flex items-center justify-center">
+                        <img
+                          src={
+                            car.isAvailable
+                              ? assets.eye_close_icon
+                              : assets.eye_icon
+                          }
+                          alt="toggle"
+                          className="w-8 h-8 object-contain brightness-0"
+                        />
+                      </div>
+                      <div className="p-3 bg-red-200/90 hover:bg-red-300 border border-red-300 rounded-2xl transition-all cursor-pointer shadow-md flex items-center justify-center">
+                        <img
+                          src={assets.delete_icon}
+                          alt="delete"
+                          className="w-8 h-8 object-contain brightness-0"
+                        />
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ManageCars;

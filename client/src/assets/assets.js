@@ -166,7 +166,7 @@ export const CarData = [
     location: "Jorhat",
     description:
       "The Nissan Patrol is a legendary full-size, body-on-frame SUV renowned worldwide for its exceptional off-road capability and rugged durability.",
-    isAvaliable: true,
+    isAvailable: true,
     createdAt: "2025-04-16T07:26:56.215Z",
   },
   {
@@ -184,7 +184,7 @@ export const CarData = [
     location: "Nogaon",
     description:
       "The Toyota Corolla is a mid-size luxury sedan produced by Toyota. The Corolla made its debut in 2008 as the first sedan ever produced by Toyota.",
-    isAvaliable: true,
+    isAvailable: true,
     createdAt: "2025-04-16T08:33:57.993Z",
   },
   {
@@ -202,7 +202,7 @@ export const CarData = [
     location: "Dibrugarh",
     description:
       "The Jeep Wrangler is a mid-size luxury SUV produced by Jeep. The Wrangler made its debut in 2003 as the first SUV ever produced by Jeep.",
-    isAvaliable: true,
+    isAvailable: true,
     createdAt: "2025-04-16T08:34:39.592Z",
   },
   {
@@ -220,7 +220,7 @@ export const CarData = [
     location: "Tezpur",
     description:
       "This is a mid-size luxury sedan produced by Toyota. The Corolla made its debut in 2008 as the first sedan ever produced by Toyota.",
-    isAvaliable: true,
+    isAvailable: true,
     createdAt: "2025-04-17T06:15:47.318Z",
   },
 ];
