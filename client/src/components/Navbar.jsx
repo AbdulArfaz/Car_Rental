@@ -1,48 +1,61 @@
 import React, { useState } from "react";
 import { assets, menuLinks } from "../assets/assets.js";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { useAppContext } from "../context/AppContext.jsx";
+import { toast } from "sonner";
 
-const Navbar = ({ setShowLogin }) => {
+const Navbar = () => {
+  const { setShowLogin, user, logout, isOwner, axios, setIsOwner } =
+    useAppContext();
+
   const location = useLocation();
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const isHome = location.pathname === "/";
 
-  return (
+  const changeRole = async () => {
+    try {
+      const { data } = await axios.post("/api/owner/change-role");
+      if (data.success) {
+        setIsOwner(true);
+        toast.success(data.message);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
-  <header className="sticky top-0 z-50 w-full py-3 px-4 sm:px-6 flex justify-center">
-    
-      <nav className={`w-full max-w-7xl h-16 px-6 flex items-center 
+  return (
+    <header className="sticky top-0 z-50 w-full py-3 px-4 sm:px-6 flex justify-center">
+      <nav
+        className={`w-full max-w-7xl h-16 px-6 flex items-center 
       justify-between rounded-full transition-all duration-300 ${
-        isHome ? 'bg-light/90 border border-borderColor/60 shadow-lg' :
-         'bg-white/90 border border-borderColor/60 shadow-lg'
-      } backdrop-blur-md`}>
-        
-     
-        <NavLink to='/' className="flex items-center gap-2">
-          <img src={assets.firefly} alt="Logo" className="h-12 sm:h-14 w-auto object-contain" />
+        isHome
+          ? "bg-light/90 border border-borderColor/60 shadow-lg"
+          : "bg-white/90 border border-borderColor/60 shadow-lg"
+      } backdrop-blur-md`}
+      >
+        <NavLink to="/" className="flex items-center gap-2">
+          <img
+            src={assets.firefly}
+            alt="Logo"
+            className="h-12 sm:h-14 w-auto object-contain"
+          />
         </NavLink>
 
-       <div className={`
+        <div
+          className={`
   absolute top-full left-4 right-4 sm:left-auto sm:right-6 z-40 sm:w-80 bg-white/95 backdrop-blur-xl
   shadow-2xl p-6 rounded-3xl flex flex-col justify-between
   transition-transform duration-300 ease-in-out
   md:static md:top-auto md:right-auto md:left-auto md:h-auto md:w-auto md:bg-gray-100/80
   md:border md:border-borderColor/50 md:shadow-inner md:p-1.5 md:flex-row md:items-center
   md:rounded-full md:gap-1
-  ${open ? 'scale-100 opacity-150 translate-y-0' : 'scale-95 opacity-0 pointer-events-none md:pointer-events-auto translate-y-2'} md:translate-y-0 md:scale-100 md:opacity-100
-`}>
-        {/* <div className={`
-          absolute top-full right-4 sm:right-8 z-40 w-72 bg-white/95 backdrop-blur-xl 
-          shadow-2xl p-6 rounded-3xl flex flex-col justify-between 
-          transition-transform duration-300 ease-in-out 
-          md:static md:top-auto md:right-auto md:h-auto md:w-auto md:bg-gray-100/80 
-          md:border md:border-borderColor/50 md:shadow-inner md:p-1.5 md:flex-row md:items-center 
-          md:rounded-full md:gap-1
-          ${open ? 'translate-x-0' : 'translate-x-[120%]'} md:translate-x-0
-        `}> */}
-          
-        
+  ${open ? "scale-100 opacity-150 translate-y-0" : "scale-95 opacity-0 pointer-events-none md:pointer-events-auto translate-y-2"} md:translate-y-0 md:scale-100 md:opacity-100
+`}
+        >
           <div className="flex items-center justify-between md:hidden pb-4 border-b border-gray-100">
             <span className="font-bold text-gray-800 text-lg">Menu</span>
           </div>
@@ -56,10 +69,10 @@ const Navbar = ({ setShowLogin }) => {
                 className={({ isActive }) =>
                   `px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 text-center 
                 ${
-                    isActive 
-                      ? 'bg-white text-gray-900 shadow-sm font-semibold' 
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-white/50'
-                  }`
+                  isActive
+                    ? "bg-white text-gray-900 shadow-sm font-semibold"
+                    : "text-gray-600 hover:text-gray-900 hover:bg-white/50"
+                }`
                 }
               >
                 {link.name}
@@ -67,68 +80,74 @@ const Navbar = ({ setShowLogin }) => {
             ))}
           </div>
 
-       
-          <div className="flex items-center gap-2 bg-white/80 border border-gray-200 md:border-none 
-          rounded-full px-3.5 py-1.5 my-3 md:my-0 shadow-xs md:shadow-none">
-            <input 
-              type="text" 
-              placeholder="Search..." 
+          <div
+            className="flex items-center gap-2 bg-white/80 border border-gray-200 md:border-none 
+          rounded-full px-3.5 py-1.5 my-3 md:my-0 shadow-xs md:shadow-none"
+          >
+            <input
+              type="text"
+              placeholder="Search..."
               className="bg-transparent text-sm outline-hidden w-full md:w-28 xl:w-36 text-gray-700 
               placeholder-gray-400"
             />
-            <img src={assets.search_icon} alt="search" className="w-4 h-4 opacity-50" />
+            <img
+              src={assets.search_icon}
+              alt="search"
+              className="w-4 h-4 opacity-50"
+            />
           </div>
 
           <div className="flex flex-col gap-2 pt-4 border-t border-gray-100 md:hidden">
-            <button 
-              onClick={() => { navigate("/owner"); setOpen(false); }}
+            <button
+              onClick={() => (isOwner ? navigate("/owner") : changeRole())}
               className="w-full py-2.5 rounded-full text-sm font-medium text-gray-700
                bg-gray-50 border border-borderColor text-center"
             >
-              Dashboard
+              {isOwner ? "Dashboard" : "List Cars"}
             </button>
-            <button 
-              onClick={() => { setShowLogin(true); setOpen(false); }}
+            <button
+              onClick={() => {
+                user ? logout() : setShowLogin(true);
+              }}
               className="w-full py-2.5 rounded-full text-sm font-medium text-white bg-linear-to-r
                from-primary via-blue-600 to-indigo-600 shadow-md shadow-primary/25 text-center"
             >
-              Login
+              {user ? "Logout" : "Login"}
             </button>
           </div>
         </div>
 
-       
         <div className="hidden md:flex items-center gap-3">
-          <button 
-            onClick={() => navigate("/owner")}
+          <button
+            onClick={() => (isOwner ? navigate("/owner") : changeRole())}
             className="px-4 py-2 rounded-full text-sm font-medium text-gray-700
              hover:text-primary transition-colors"
           >
-            Dashboard
+            {isOwner ? "Dashboard" : "List Cars"}
           </button>
-          <button 
-            onClick={() => setShowLogin(true)}
+          <button
+            onClick={() => (user ? logout() : setShowLogin(true))}
             className="px-6 py-2.5 rounded-full text-sm font-medium 
             text-white bg-linear-to-r from-primary via-blue-600 to-indigo-600 hover:opacity-95 
             shadow-lg shadow-primary/25 transition-all duration-300 hover:scale-[1.02]"
           >
-            Login
+            {user ? "Logout" : "Login"}
           </button>
         </div>
 
-        
         <button
           onClick={() => setOpen(!open)}
           className="md:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100 focus:outline-hidden transition-colors z-50"
           aria-label="Toggle Menu"
         >
-          <img src={open ? assets.close_icon : assets.menu_icon} alt="menu" className="w-6 h-6" />
+          <img
+            src={open ? assets.close_icon : assets.menu_icon}
+            alt="menu"
+            className="w-6 h-6"
+          />
         </button>
-
       </nav>
     </header>
-
-   
   );
 };
 

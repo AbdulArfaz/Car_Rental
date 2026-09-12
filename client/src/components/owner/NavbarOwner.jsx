@@ -1,10 +1,12 @@
 import React from "react";
-import { UserData } from "../../assets/assets";
 import { Link } from "react-router-dom";
 import { assets } from "../../assets/assets";
+import { useAppContext } from "../../context/AppContext";
 
 const NavbarOwner = () => {
-  const user = UserData;
+
+  const { user } = useAppContext()
+  
 
   return (
     <header className="h-16 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-6 flex items-center justify-between sticky top-0 z-30 shadow-sm">
@@ -20,7 +22,7 @@ const NavbarOwner = () => {
         <div className="text-right hidden sm:block">
           <p className="text-xs text-slate-400">Welcome back,</p>
           <p className="text-sm font-semibold text-white tracking-tight">
-            {user.name || "Owner"}
+            {user?.name || "Owner"}
           </p>
         </div>
         <div className="w-9 h-9 rounded-full bg-linear-to-tr from-cyan-500 to-blue-600 p-0.5 shadow-md flex items-center justify-center text-white font-bold text-xs">

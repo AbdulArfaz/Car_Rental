@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { assets, dummyDashboardData } from '../../assets/assets'
+import { useAppContext } from '../../context/AppContext'
+import { toast } from 'sonner'
 
 const Dashboard = () => {
+
+  const {axios, isOwner, currency } = useAppContext()
 
 const [data, setData] = useState({
   totalCars: 0,
@@ -11,7 +15,7 @@ const [data, setData] = useState({
   recentBookings: [],
   monthlyRevenue: 0,
 })
-const currency = import.meta.env.VITE_CURRENCY
+
 
 const dashboardCards = [
     { 
@@ -44,9 +48,26 @@ const dashboardCards = [
     },
   ];
 
+
+ const fetchDashboardData = async () => {
+    try {
+      const { data } = await axios.get('/api/owner/dashboard')
+      if (data.success) {
+        setData(data.data)
+      } else {
+        toast.error(data.message)
+      }
+    } catch (error) {
+       toast.error(error?.response?.data?.message || error.message)
+    }
+ }
+  
+
 useEffect(()=>{
-  setData(dummyDashboardData)
-},[])
+  if (isOwner) {
+    fetchDashboardData()
+  }
+},[isOwner])
 
   return (
 

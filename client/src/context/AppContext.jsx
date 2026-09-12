@@ -27,7 +27,7 @@ const [cars, setCars ] = useState([])
 //function to check if user is logged in
 const fetchUser = async()=>{
     try {
-        const {data} = await axios.get('/api/user/data')
+        const {data} = await axios.get('/api/users/get-data')
         if (data.success) {
             setUser(data.user)
             setIsOwner(data.user.role === 'owner')
@@ -68,8 +68,6 @@ const logout = async () => {
 };
 
 
-
-
 //hook to fetch user data when token is available
 useEffect(()=>{
 fetchUser();
@@ -80,6 +78,24 @@ fetchCars()
   const value = {
     navigate,
     currency,
+    axios, 
+    user,
+    setUser,
+    token,
+    setToken,
+    isOwner,
+    setIsOwner,
+    fetchUser,
+    showLogin,
+    setShowLogin,
+    logout,
+    fetchCars,
+    cars,
+    setCars,
+    pickupDate,
+    setPickupDate,
+    returnDate,
+    setReturnDate,
   };
 
   return <Appcontext.Provider value={value}>{children}</Appcontext.Provider>;

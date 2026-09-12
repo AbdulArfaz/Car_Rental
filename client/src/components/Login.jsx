@@ -1,13 +1,31 @@
 import React, { useState } from "react";
+import { useAppContext } from "../context/AppContext";
+import { toast } from "sonner";
 
-const Login = ({ setShowLogin }) => {
+const Login = () => {
+
+const {setShowLogin, axios, setToken, navigate, fetchUser} = useAppContext()
+
   const [state, setState] = useState("login");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const onSubmitHandler = async (e) => {
-    e.preventDefault();
+    try {
+      e.preventDefault();
+      const {data} = await axios.post(`/api/users/${state}`, {name,email,password})
+      if (data.success) {
+        toast.success("Login successful! Now you can list cars")
+        setShowLogin(false)
+        navigate('/')
+        fetchUser()
+      } else {
+        toast.error(data.message)
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || error.message)
+    }
   };
 
   return (

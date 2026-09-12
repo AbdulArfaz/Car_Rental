@@ -3,18 +3,31 @@ import {
   adminMenuLinks,
   assets,
   menuLinks,
-  UserData,
 } from "../../assets/assets";
 import { NavLink, useLocation } from "react-router-dom";
+import { useAppContext } from "../../context/AppContext";
+import { toast } from "sonner";
 
 const Sidebar = () => {
-  const user = UserData;
+  const {user, axios, fetchUser} = useAppContext()
   const location = useLocation();
   const [image, setImage] = useState("");
 
   const updateImage = async () => {
-    user.image = URL.createObjectURL(image);
-    setImage("");
+   try {
+        const formData = new FormData()
+        formData.append('image', image)
+        const { data } = await axios.post('/api/owner/update-image', formData)
+        if (data.success) {
+          fetchUser()
+          toast.success(data.message)
+          setImage('')
+        } else {
+          toast.error(data.message)
+        }
+   } catch (error) {
+     toast.error(error?.response?.data?.message || error.message)
+   }
   };
 
   return (

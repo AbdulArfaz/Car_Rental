@@ -40,8 +40,8 @@ const Hero = () => {
                 <option value="" disabled>
                   Select Location
                 </option>
-                {cityList.map((city) => (
-                  <option key={city} value={city}>
+                {cityList.map((city, index) => (
+                  <option key={index} value={city}>
                     {city}
                   </option>
                 ))}

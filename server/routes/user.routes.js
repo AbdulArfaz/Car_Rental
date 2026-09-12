@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  getCars,
   getUserProfile,
   loginUser,
   logoutUser,
@@ -19,6 +20,7 @@ userRouter.post("/login", loginUser);
 userRouter.route("/logout").post(userVerifyJWT, logoutUser)
 userRouter.get("/get-data", userVerifyJWT, getUserProfile);
 userRouter.route("/refreshToken").post(refreshAccessToken)
+userRouter.get('/cars', getCars)
 
 
 export default userRouter;

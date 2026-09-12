@@ -5,6 +5,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import crypto from "crypto";
 import validator from "validator";
 import { User } from "../models/user.model.js";
+import { Car } from "../models/car.model.js";
 
 const genAccessandRefreshTokens = async (userId) => {
   try {
@@ -70,7 +71,7 @@ export const loginUser = asyncHandler(async (req, res) => {
   if (!isPasswordValid) {
     throw new ApiError(401, "Invalid user Credentials");
   }
-  
+
   const { accessToken, refreshToken } = await genAccessandRefreshTokens(
     user._id
   );
@@ -117,7 +118,6 @@ export const getUserProfile = asyncHandler(async (req, res) => {
   });
 });
 
-
 export const logoutUser = asyncHandler(async (req, res) => {
   await User.findByIdAndUpdate(
     req.user._id,
@@ -127,8 +127,8 @@ export const logoutUser = asyncHandler(async (req, res) => {
       },
     },
     {
-      returnDocument: 'after',
-    },
+      returnDocument: "after",
+    }
   );
   const options = {
     httpOnly: true,
@@ -140,7 +140,6 @@ export const logoutUser = asyncHandler(async (req, res) => {
     .clearCookie("refreshToken", options)
     .json(new ApiResponse(200, {}, "User logged out successfully"));
 });
-
 
 export const refreshAccessToken = asyncHandler(async (req, res) => {
   const incomingRefreshToken =
@@ -185,4 +184,16 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
   } catch (error) {
     throw new ApiError(401, error?.message || "Invalid refresh token");
   }
+});
+
+export const getCars = asyncHandler(async (req, res) => {
+  const cars = await Car.find({ isAvailable: true });
+
+  if (!cars || cars.length === 0) {
+    throw new ApiError(404, "No available cars found");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, cars, "Cars fetched successfully"));
 });
