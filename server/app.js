@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import userRouter from "./routes/user.routes.js";
 import ownerRouter from "./routes/owner.routes.js";
+import bookingRouter from "./routes/booking.routes.js";
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(cookieParser());
 
 app.use("/api/user", userRouter);
 app.use("/api/owner", ownerRouter);
+app.use("/api/bookings",bookingRouter);
 
 app.use((err, req, res, next) => {
   console.log(err);
