@@ -189,10 +189,6 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
 export const getCars = asyncHandler(async (req, res) => {
   const cars = await Car.find({ isAvailable: true });
 
-  if (!cars || cars.length === 0) {
-    throw new ApiError(404, "No available cars found");
-  }
-
   return res
     .status(200)
     .json(new ApiResponse(200, cars, "Cars fetched successfully"));
