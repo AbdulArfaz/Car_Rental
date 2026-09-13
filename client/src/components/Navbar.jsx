@@ -117,7 +117,7 @@ const handleKeyDown = (e) => {
               onChange={(e)=> {
                 setInput(e.target.value);
               }}
-              onkeydown={handleKeyDown}
+              onKeyDown={handleKeyDown}
               className="bg-transparent text-sm outline-hidden w-full md:w-28 xl:w-36 text-gray-700 
               placeholder-gray-400"
             />

@@ -90,7 +90,7 @@ const bookingCardVariants = {
                 <div className="flex flex-col sm:flex-row gap-5 items-start sm:items-center">
                   <div className="w-full sm:w-44 h-28 rounded-xl overflow-hidden bg-gray-900 border border-gray-800 shrink-0 shadow-md">
                     <img
-                      src={booking.car.image}
+                      src={booking.car?.image || assets.carIcon} 
                       alt=""
                       className="w-full h-full object-cover"
                     />
@@ -113,12 +113,12 @@ const bookingCardVariants = {
                     </div>
 
                     <h3 className="text-lg sm:text-xl font-bold text-white">
-                      {booking.car.brand} {booking.car.model}
+                      {booking.car?.brand || "Car"} {booking.car?.model || "Unavailable"}
                     </h3>
 
                     <p className="text-xs sm:text-sm text-amber-400 font-medium">
-                      {booking.car.year} &bull; {booking.car.category} &bull;{" "}
-                      {booking.car.location}
+                      {booking.car?.year} &bull; {booking.car?.category} &bull;{" "}
+                      {booking.car?.location}
                     </p>
                   </div>
                 </div>
@@ -150,7 +150,7 @@ const bookingCardVariants = {
                         Pickup Location
                       </p>
                       <p className="text-white font-semibold mt-0.5">
-                        {booking.car.location}
+                        {booking.car?.location}
                       </p>
                     </div>
                   </div>

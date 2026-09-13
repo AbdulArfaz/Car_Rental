@@ -23,6 +23,7 @@ const [showLogin, setShowLogin ] = useState(false)
 const [pickupDate, setPickupDate ] = useState('')
 const [returnDate, setReturnDate ] = useState('')
 const [cars, setCars ] = useState([])
+const [input, setInput ] = useState('')
 
 //function to check if user is logged in
 const fetchUser = async()=>{
@@ -89,6 +90,8 @@ fetchCars()
     currency,
     axios, 
     user,
+    input,
+    setInput,
     setUser,
     token,
     setToken,

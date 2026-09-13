@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useAppContext } from '../../context/AppContext'
+import { assets } from "../../assets/assets";
 
 const ManageBookings = () => {
 
@@ -77,13 +78,13 @@ const ManageBookings = () => {
                   <td className="py-4 px-4">
                     <div className="flex items-center gap-3">
                       <img
-                        src={booking.car.image}
+                        src={booking.car?.image || assets.carIcon}
                         alt=""
                         className="w-14 h-14 object-cover rounded-xl shadow-md"
                       />
                       <div className="flex flex-col">
                         <p className="font-bold text-slate-900 text-sm">
-                          {booking.car.brand} {booking.car.model}
+                          {booking.car?.brand} {booking.car?.model}
                         </p>
                       </div>
                     </div>

@@ -14,6 +14,7 @@ import ManageBookings from './pages/owner/ManageBookings'
 import Login from './components/Login'
 import { Toaster } from 'sonner'
 import { useAppContext } from './context/AppContext'
+import ScrollToTop from './components/ScrollToTop'
 
 const App = () => {
 
@@ -22,6 +23,7 @@ const App = () => {
 
   return (
     <>
+    <ScrollToTop />
       <Toaster position='top-right' richColors toastOptions={{style: { marginTop: '70px'}}}/>
       {showLogin && <Login />}    
       {!isOwnerPath && <Navbar />}

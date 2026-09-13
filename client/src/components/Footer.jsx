@@ -115,7 +115,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <Link
-                    to="/bookings"
+                    to="/my-bookings"
                     className="hover:text-amber-500 transition-colors"
                   >
                     My Bookings

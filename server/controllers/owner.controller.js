@@ -142,10 +142,9 @@ export const deleteCar = asyncHandler(async (req, res) => {
   if (car.owner.toString() !== _id.toString()) {
     throw new ApiError(403, "Car is removed");
   }
-
   car.owner = null;
   car.isAvailable = false;
-  await car.save();
+  await car.save()
 
   return res
     .status(200)
