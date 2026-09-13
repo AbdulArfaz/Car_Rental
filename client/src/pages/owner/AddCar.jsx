@@ -4,8 +4,7 @@ import { useAppContext } from "../../context/AppContext";
 import { toast } from "sonner";
 
 const AddCar = () => {
-
-const {fetchCars, axios, currency} = useAppContext()
+  const { fetchCars, axios, currency } = useAppContext();
 
   const [image, setImage] = useState("");
   const [car, setCar] = useState({
@@ -13,6 +12,7 @@ const {fetchCars, axios, currency} = useAppContext()
     model: "",
     year: 0,
     pricePerDay: 0,
+    phone: "",
     category: "",
     transmission: "",
     fuel_type: "",
@@ -21,45 +21,45 @@ const {fetchCars, axios, currency} = useAppContext()
     description: "",
   });
 
-  const [isLoading, setIsLoading] = useState(false)
-  
+  const [isLoading, setIsLoading] = useState(false);
+
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    if (isLoading) return null
+    if (isLoading) return null;
 
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
-      const formData = new FormData()
-      formData.append('image', image)
-      formData.append('carData', JSON.stringify(car))
+      const formData = new FormData();
+      formData.append("image", image);
+      formData.append("carData", JSON.stringify(car));
 
-      const { data } = await axios.post('/api/owner/add-car', formData)
+      const { data } = await axios.post("/api/owner/add-car", formData);
       if (data.success) {
-        toast.success(data.message)
-        await fetchCars()
-        setImage(null)
+        toast.success(data.message);
+        await fetchCars();
+        setImage(null);
         setCar({
-           brand: "",
-    model: "",
-    year: 0,
-    pricePerDay: 0,
-    category: "",
-    transmission: "",
-    fuel_type: "",
-    seating_capacity: 0,
-    location: "",
-    description: "",
-        })
+          brand: "",
+          model: "",
+          year: 0,
+          pricePerDay: 0,
+          category: "",
+          phone: "",
+          transmission: "",
+          fuel_type: "",
+          seating_capacity: 0,
+          location: "",
+          description: "",
+        });
       } else {
-        toast.error(data.message)
+        toast.error(data.message);
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || error.message)
-    }finally{
-      setIsLoading(false)
+      toast.error(error?.response?.data?.message || error.message);
+    } finally {
+      setIsLoading(false);
     }
-    
   };
 
   return (
@@ -226,6 +226,21 @@ const {fetchCars, axios, currency} = useAppContext()
               />
             </div>
 
+            {/* new */}
+            <div className="flex flex-col gap-1.5">
+              <label className="text-xs font-black uppercase tracking-wider text-cyan-950 opacity-90">
+                Phone No
+              </label>
+              <input
+                type="number"
+                placeholder="Enter your number"
+                required
+                value={car.phone}
+                onChange={(e) => setCar({ ...car, phone: e.target.value })}
+                className="bg-white/90 border border-cyan-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-600 shadow-sm"
+              />
+            </div>
+
             <div className="flex flex-col gap-1.5">
               <label className="text-xs font-black uppercase tracking-wider text-cyan-950 opacity-90">
                 Location
@@ -275,7 +290,7 @@ const {fetchCars, axios, currency} = useAppContext()
                 alt=""
                 className="w-5 h-5 brightness-0 invert"
               />
-             {isLoading ? 'Listing...' : 'Add Car to Inventory'}
+              {isLoading ? "Listing..." : "Add Car to Inventory"}
             </button>
           </div>
         </form>
