@@ -3,6 +3,7 @@ import { assets, menuLinks } from "../assets/assets.js";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AppContext.jsx";
 import { toast } from "sonner";
+import { motion } from 'motion/react'
 
 const Navbar = () => {
   const { setShowLogin, user, logout, isOwner, axios, setIsOwner } =
@@ -29,7 +30,14 @@ const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-50 w-full py-3 px-4 sm:px-6 flex justify-center">
-      <nav
+      <motion.nav
+      initial={{y: -20, opacity: 0}}
+      animate={{y: 0, opacity: 1}}
+      transition={{
+        type: "spring",
+        stiffness: 260,
+        damping: 20
+      }}
         className={`w-full max-w-7xl h-16 px-6 flex items-center 
       justify-between rounded-full transition-all duration-300 ${
         isHome
@@ -38,7 +46,13 @@ const Navbar = () => {
       } backdrop-blur-md`}
       >
         <NavLink to="/" className="flex items-center gap-2">
-          <img
+          <motion.img whileHover={{scale: 1.08, rotate: -2}}
+                      whileTap={{scale: 0.95}}
+                      transition={{
+        type: "spring",
+        stiffness: 460,
+        damping: 17
+      }}
             src={assets.firefly}
             alt="Logo"
             className="h-12 sm:h-14 w-auto object-contain"
@@ -146,7 +160,7 @@ const Navbar = () => {
             className="w-6 h-6"
           />
         </button>
-      </nav>
+      </motion.nav>
     </header>
   );
 };
