@@ -40,7 +40,7 @@ const fetchUser = async()=>{
         setUser(null)
         setIsOwner(false)
         if (error.response?.status !== 401) {
-            toast.error(error.response?.data?.message || "Something went wrong")
+            // toast.error(error.response?.data?.message || "Something went wrong")
         }
     }
 }
@@ -55,7 +55,7 @@ const fetchCars = async () =>{
             toast.error(data.message)
         }
     } catch (error) {
-        toast.error(error.response?.data?.message || "Failed to fetch Cars")
+        // toast.error(error.response?.data?.message || "Failed to fetch Cars")
     }
 }
 

@@ -48,6 +48,18 @@ const carVariants = {
   },
 };
 
+const formVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: 'easeOut',
+    },
+  },
+};
+
   return (
     <motion.div 
     variants={containerVariants}
@@ -80,7 +92,11 @@ const carVariants = {
             </motion.p>
           </div>
 
-          <form onSubmit={handleSearch} className="w-full bg-slate-800/90 backdrop-blur-md border border-slate-700/80 p-4 sm:p-6 rounded-2xl shadow-xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
+          <motion.form 
+          initial="hidden"
+          animate="visible"
+          variants={formVariants}
+          onSubmit={handleSearch} className="w-full bg-slate-800/90 backdrop-blur-md border border-slate-700/80 p-4 sm:p-6 rounded-2xl shadow-xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
             <div className="flex flex-col space-y-1.5">
               <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
                 Pickup Location
@@ -140,13 +156,16 @@ const carVariants = {
               />
             </div>
 
-            <button
+            <motion.button
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.96 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
               type="submit"
               className="w-full bg-linear-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-semibold rounded-xl px-4 py-2.5 flex items-center justify-center space-x-2 transition-all shadow-md shadow-amber-500/10 cursor-pointer"
             >
               <span>Search Cars</span>
-            </button>
-          </form>
+            </motion.button>
+          </motion.form>
         </div>
 
         <div className="lg:col-span-5 relative flex justify-center">

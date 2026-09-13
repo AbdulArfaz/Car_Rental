@@ -4,20 +4,39 @@ import Title from "./Title";
 import CarCard from "./CarCard";
 import { assets } from "../assets/assets.js";
 import { useAppContext } from "../context/AppContext.jsx";
+import { motion } from "motion/react";
 
 const FeaturedSection = () => {
-
-  const {cars, fetchCars } = useAppContext()
+  const { cars, fetchCars } = useAppContext();
   const navigate = useNavigate();
 
-  useEffect(()=>{
+  useEffect(() => {
     if (fetchCars) {
-      fetchCars()
+      fetchCars();
     }
-  },[])
+  }, []);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.25,
+      },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: [0.25, 0.1, 0.25, 1.0] },
+    },
+  };
 
   return (
-    <div className="bg-slate-950 text-slate-100 py-16 px-4 sm:px-6 lg:px-8">
+    <motion.div className="bg-slate-950 text-slate-100 py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto flex flex-col space-y-12">
         <Title
           title="Featured Vehicles"
@@ -25,14 +44,28 @@ const FeaturedSection = () => {
           align="center"
         />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.4 }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+        >
           {cars?.slice(0, 4).map((car) => (
-            <CarCard key={car._id} car={car} />
+            <motion.div
+              key={car._id}
+              variants={cardVariants}
+              whileHover={{ y: -6, transition: { duration: 0.2 } }}
+            >
+              <CarCard car={car} />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         <div className="flex justify-center pt-4">
-          <button
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             onClick={() => {
               navigate("/cars");
               scrollTo(0, 0);
@@ -45,10 +78,10 @@ const FeaturedSection = () => {
               alt="arrow"
               className="w-4 h-4 transform group-hover:translate-x-1 transition-transform filter invert"
             />
-          </button>
+          </motion.button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

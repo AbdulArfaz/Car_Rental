@@ -8,14 +8,44 @@ import {
   FaEnvelope,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { motion } from "motion/react";
 
 const Footer = () => {
+  const footerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const columnVariants = {
+    hidden: { opacity: 0, y: 25 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" },
+    },
+  };
+
   return (
     <div>
       <footer className="bg-[#0b0f19] text-gray-300 border-t border-gray-800 mt-auto w-full">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+        <motion.div
+          variants={footerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16"
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-8">
-            <div className="lg:col-span-1 space-y-4">
+            <motion.div
+              variants={columnVariants}
+              className="lg:col-span-1 space-y-4"
+            >
               <h2 className="text-2xl font-bold text-white tracking-wide">
                 Firefly <span className="text-amber-500">Car Rental</span>
               </h2>
@@ -26,7 +56,9 @@ const Footer = () => {
               </p>
 
               <div className="flex items-center space-x-3 pt-2">
-                <a
+                <motion.a
+                  whileHover={{ scale: 1.15 }}
+                  whileTap={{ scale: 0.95 }}
                   href="https://twitter.com"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -34,8 +66,10 @@ const Footer = () => {
                   aria-label="Twitter"
                 >
                   <FaTwitter size={16} />
-                </a>
-                <a
+                </motion.a>
+                <motion.a
+                  whileHover={{ scale: 1.15 }}
+                  whileTap={{ scale: 0.95 }}
                   href="https://facebook.com"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -43,8 +77,10 @@ const Footer = () => {
                   aria-label="Facebook"
                 >
                   <FaFacebookF size={16} />
-                </a>
-                <a
+                </motion.a>
+                <motion.a
+                  whileHover={{ scale: 1.15 }}
+                  whileTap={{ scale: 0.95 }}
                   href="https://instagram.com"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -52,12 +88,11 @@ const Footer = () => {
                   aria-label="Instagram"
                 >
                   <FaInstagram size={16} />
-                </a>
+                </motion.a>
               </div>
-            </div>
+            </motion.div>
 
-            {/* Quick Links */}
-            <div>
+            <motion.div variants={columnVariants}>
               <h3 className="text-white font-semibold text-sm uppercase tracking-wider mb-4">
                 Quick Links
               </h3>
@@ -87,9 +122,9 @@ const Footer = () => {
                   </Link>
                 </li>
               </ul>
-            </div>
+            </motion.div>
 
-            <div>
+            <motion.div variants={columnVariants}>
               <h3 className="text-white font-semibold text-sm uppercase tracking-wider mb-4">
                 Locations
               </h3>
@@ -115,9 +150,9 @@ const Footer = () => {
                   </span>
                 </li>
               </ul>
-            </div>
+            </motion.div>
 
-            <div>
+            <motion.div variants={columnVariants}>
               <h3 className="text-white font-semibold text-sm uppercase tracking-wider mb-4">
                 Support
               </h3>
@@ -147,9 +182,9 @@ const Footer = () => {
                   </Link>
                 </li>
               </ul>
-            </div>
+            </motion.div>
 
-            <div>
+            <motion.div variants={columnVariants}>
               <h3 className="text-white font-semibold text-sm uppercase tracking-wider mb-4">
                 Contact
               </h3>
@@ -180,17 +215,20 @@ const Footer = () => {
                   </a>
                 </li>
               </ul>
-            </div>
+            </motion.div>
           </div>
 
-          <div className="mt-12 pt-8 border-t border-gray-800/80 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500">
+          <motion.div
+            variants={columnVariants}
+            className="mt-12 pt-8 border-t border-gray-800/80 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500"
+          >
             <p>
               &copy; {new Date().getFullYear()} Firefly Car Rental. All rights
               reserved.
             </p>
             <p className="mt-4 sm:mt-0">Designed for the roads of Assam.</p>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </footer>
     </div>
   );

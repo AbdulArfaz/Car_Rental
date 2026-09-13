@@ -20,10 +20,19 @@ app.use("/api/users", userRouter);
 app.use("/api/owner", ownerRouter);
 app.use("/api/bookings",bookingRouter);
 
+
+app.get("/", (req, res) => {
+  res.send("Server is working");
+});
+
+
 app.use((err, req, res, next) => {
-  console.log(err);
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal Server Error";
+
+  if (statusCode !== 401) {
+    console.log(err)
+  }
 
   return res.status(statusCode).json({
     success: false,
@@ -31,10 +40,6 @@ app.use((err, req, res, next) => {
     message,
     errors: err.errors || [],
   });
-});
-
-app.get("/", (req, res) => {
-  res.send("Server is working");
 });
 
 export { app };
