@@ -164,9 +164,9 @@ export const getDashboardData = asyncHandler(async (req, res) => {
     .populate("car")
     .sort({ createdAt: -1 });
   const pendingBookings = await Booking.find({ owner: _id, status: "pending" });
-  const completedBookings = await Booking.find({
+  const confirmedBookings = await Booking.find({
     owner: _id,
-    status: "completed",
+    status: "confirmed",
   });
 
   const monthlyRevenue = bookings
@@ -177,7 +177,7 @@ export const getDashboardData = asyncHandler(async (req, res) => {
     totalCars: cars.length,
     totalBookings: bookings.length,
     pendingBookings: pendingBookings.length,
-    completedBookings: completedBookings.length,
+    confirmedBookings: confirmedBookings.length,
     recentBookings: bookings.slice(0, 3),
     monthlyRevenue,
   };

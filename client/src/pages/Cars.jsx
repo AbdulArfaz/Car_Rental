@@ -27,11 +27,13 @@ const Cars = () => {
       const category = car?.category?.toLowerCase() || '';
       const searchTerm = input.toLowerCase();
 
-      return brand.includes(searchTerm) || model.includes(searchTerm) || category.includes(searchTerm);
-    });
+      return brand.includes(searchTerm) ||
+       model.includes(searchTerm) || 
+       category.includes(searchTerm);
+    }).slice(0, 6)
 
   const searchCarAvailability = async ()=>{
-    const{ data } = await axios.post('/api/booking/check-availability',{
+    const{ data } = await axios.post('/api/bookings/check-availability',{
       location: pickupLocation,
       pickupDate,
       returnDate
@@ -45,8 +47,10 @@ const Cars = () => {
     }
   }
   useEffect(()=>{
-     isSearchData && searchCarAvailability()
-  },[])
+     if (isSearchData) {
+      searchCarAvailability()
+     }
+  },[pickupLocation, pickupDate, returnDate])
 
   
 

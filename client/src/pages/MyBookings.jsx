@@ -1,15 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { assets, myBookingsData } from "../assets/assets";
+import { assets } from "../assets/assets";
+import { toast } from "sonner";
+import { useAppContext } from "../context/AppContext";
 
 const MyBookings = () => {
+ 
+ const { axios, user, currency } = useAppContext()
+
   const [bookings, setBookings] = useState([]);
-  const currency = import.meta.env.VITE_CURRENCY;
   const fetchMyBookings = async () => {
-    setBookings(myBookingsData);
+    try {
+      const { data } = await axios.get('/api/bookings/user')
+      if (data.success) {
+       setBookings(data.data) 
+      } else{
+        toast.error(data.message)
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
   };
+
   useEffect(() => {
-    fetchMyBookings();
-  }, []);
+    user && fetchMyBookings();
+  }, [user]);
 
   return (
        <div className="min-h-screen bg-linear-to-br from-[#0b0f19] via-[#111827] to-[#1f2937] text-white px-4 sm:px-6 lg:px-8 py-12">

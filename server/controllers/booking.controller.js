@@ -8,8 +8,8 @@ export const checkAvailability = async (carId, pickupDate, returnDate) => {
   try {
     const bookings = await Booking.find({
       car: carId,
-      pickupDate: { $lte: returnDate },
-      returnDate: { $gte: pickupDate },
+      pickupDate: { $lte: new Date(returnDate) },
+      returnDate: { $gte: new Date(pickupDate) },
     });
     return bookings.length === 0;
   } catch (error) {
@@ -30,7 +30,9 @@ export const checkAvailabilityOfCars = asyncHandler(async (req, res) => {
     );
   }
 
-  const cars = await Car.find({ location, isAvailable: true });
+  const cars = await Car.find({ 
+    location : { $regex: new RegExp(`^${location.trim()}$`, "i")}, 
+    isAvailable: true });
 
   const availableCarsPromises = cars.map(async (car) => {
     const isAvailable = await checkAvailability(
@@ -58,17 +60,14 @@ export const createBooking = asyncHandler(async (req, res) => {
   if (!car || !pickupDate || !returnDate) {
     throw new ApiError(400, "Car, pickupDate, and returnDate are required");
   }
-
   const isAvailable = await checkAvailability(car, pickupDate, returnDate);
   if (!isAvailable) {
     throw new ApiError(400, "Car is not available");
   }
-
   const carData = await Car.findById(car);
   if (!carData) {
     throw new ApiError(404, "Car not found");
   }
-
   const picked = new Date(pickupDate);
   const returned = new Date(returnDate);
   const noOfDays = Math.ceil((returned - picked) / (1000 * 60 * 60 * 24));

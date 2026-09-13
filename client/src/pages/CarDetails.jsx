@@ -4,20 +4,44 @@ import { useState } from "react";
 import { assets } from "../assets/assets.js";
 import { CarData } from "../assets/assets.js";
 import Loader from "../components/Loader.jsx";
+import { toast } from "sonner";
+import { useAppContext } from "../context/AppContext.jsx";
 
 const CarDetails = () => {
+
   const { id } = useParams();
+
+  const {cars, axios, pickupDate, setPickupDate, returnDate, setReturnDate} = useAppContext()
   const navigate = useNavigate();
   const [car, setCar] = useState(null);
   const currency = import.meta.env.VITE_CURRENCY;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+       const { data } = await axios.post('/api/bookings/create',
+        {
+          car: id,
+          pickupDate,
+          returnDate
+        })
+        if (data.success) {
+          toast.success(data.message)
+          navigate('/my-bookings')
+        } else {
+          toast.error(data.message || data.error)
+        }
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Cannot Book The Car, Try Again')
+    }
+
   };
 
   useEffect(() => {
-    setCar(CarData.find((car) => car._id === id));
-  }, [id]);
+    if(cars && cars.length > 0){
+    setCar(cars.find((car) => car._id === id));
+    }
+  },[cars, id]);
 
   return car ? (
     <div className="min-h-screen bg-linear-to-br from-[#0b0f19] via-[#111827] to-[#1f2937] text-white px-4 sm:px-6 lg:px-8 py-10">
@@ -143,7 +167,15 @@ const CarDetails = () => {
                       type="date"
                       required
                       id="pickup-date"
+                      value={pickupDate}
                       min={new Date().toISOString().split("T")[0]}
+                      onChange={(e)=>{
+                        const newPickup = e.target.value;
+                        setPickupDate(newPickup)
+                        if (returnDate && returnDate < newPickup) {
+                          setReturnDate('')
+                        }
+                      }}
                       style={{ colorScheme: "dark" }}
                       className="w-full bg-slate-900 border border-slate-700 text-slate-100 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:border-amber-400 transition cursor-pointer"
                     />
@@ -160,6 +192,9 @@ const CarDetails = () => {
                       type="date"
                       required
                       id="return-date"
+                      value={returnDate}
+                      onChange={(e)=>setReturnDate(e.target.value)}
+                      min={pickupDate || new Date().toISOString().split('T')[0]}
                       style={{ colorScheme: "dark" }}
                       className="w-full bg-slate-900 border border-slate-700 text-slate-100 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:border-amber-400 transition cursor-pointer"
                     />

@@ -4,13 +4,13 @@ import { useAppContext } from "../context/AppContext";
 
 const Hero = () => {
   
-  const [pickup, setPickup] = useState('');
+  const [pickupLocation, setPickupLocation] = useState('');
   
  const {pickupDate, setPickupDate, returnDate, setReturnDate, navigate} = useAppContext()
 
   const handleSearch = (e) =>{
     e.preventDefault()
-    navigate('/cars?pickup=' + pickup + '&pickupDate=' + pickupDate + '&returnDate=' + returnDate)
+    navigate('/cars?pickupLocation=' + pickupLocation + '&pickupDate=' + pickupDate + '&returnDate=' + returnDate)
 
   }
 
@@ -43,8 +43,8 @@ const Hero = () => {
               </label>
               <select
                 required
-                value={pickup}
-                onChange={(e) => setPickup(e.target.value)}
+                value={pickupLocation}
+                onChange={(e) => setPickupLocation(e.target.value)}
                 className="bg-slate-900 border border-slate-700 text-slate-100 text-sm rounded-xl px-3 py-2.5 focus:outline-none focus:border-amber-400 transition"
               >
                 <option value="" disabled>
@@ -89,6 +89,7 @@ const Hero = () => {
                  value={returnDate}
                 onChange={(e)=>setReturnDate(e.target.value)}
                 id="return-date"
+                min={pickupDate || new Date().toISOString().split('T')[0]}
                 required
                 style={{ colorScheme: "dark" }}
                 className="bg-slate-900 border border-slate-700 text-slate-100 text-sm rounded-xl px-3 py-2.5 focus:outline-none focus:border-amber-400 transition cursor-pointer"

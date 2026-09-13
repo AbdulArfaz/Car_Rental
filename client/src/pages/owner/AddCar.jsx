@@ -5,7 +5,7 @@ import { toast } from "sonner";
 
 const AddCar = () => {
 
-const {axios, currency} = useAppContext()
+const {fetchCars, axios, currency} = useAppContext()
 
   const [image, setImage] = useState("");
   const [car, setCar] = useState({
@@ -37,6 +37,7 @@ const {axios, currency} = useAppContext()
       const { data } = await axios.post('/api/owner/add-car', formData)
       if (data.success) {
         toast.success(data.message)
+        await fetchCars()
         setImage(null)
         setCar({
            brand: "",
