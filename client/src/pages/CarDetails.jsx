@@ -6,12 +6,13 @@ import { CarData } from "../assets/assets.js";
 import Loader from "../components/Loader.jsx";
 import { toast } from "sonner";
 import { useAppContext } from "../context/AppContext.jsx";
+import { motion } from "motion/react";
 
 const CarDetails = () => {
-
   const { id } = useParams();
 
-  const {cars, axios, pickupDate, setPickupDate, returnDate, setReturnDate} = useAppContext()
+  const { cars, axios, pickupDate, setPickupDate, returnDate, setReturnDate } =
+    useAppContext();
   const navigate = useNavigate();
   const [car, setCar] = useState(null);
   const currency = import.meta.env.VITE_CURRENCY;
@@ -19,35 +20,71 @@ const CarDetails = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-       const { data } = await axios.post('/api/bookings/create',
-        {
-          car: id,
-          pickupDate,
-          returnDate
-        })
-        if (data.success) {
-          toast.success(data.message)
-          navigate('/my-bookings')
-        } else {
-          toast.error(data.message || data.error)
-        }
+      const { data } = await axios.post("/api/bookings/create", {
+        car: id,
+        pickupDate,
+        returnDate,
+      });
+      if (data.success) {
+        toast.success(data.message);
+        navigate("/my-bookings");
+      } else {
+        toast.error(data.message || data.error);
+      }
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Cannot Book The Car, Try Again')
+      toast.error(
+        error.response?.data?.message || "Cannot Book The Car, Try Again"
+      );
     }
-
   };
 
   useEffect(() => {
-    if(cars && cars.length > 0){
-    setCar(cars.find((car) => car._id === id));
+    if (cars && cars.length > 0) {
+      setCar(cars.find((car) => car._id === id));
     }
-  },[cars, id]);
+  }, [cars, id]);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const fadeUpVariants = {
+    hidden: { opacity: 0, y: 25 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.45, ease: "easeOut" },
+    },
+  };
+
+  const sideCardVariants = {
+    hidden: { opacity: 0, x: 25 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.5, ease: "easeOut" },
+    },
+  };
 
   return car ? (
     <div className="min-h-screen bg-linear-to-br from-[#0b0f19] via-[#111827] to-[#1f2937] text-white px-4 sm:px-6 lg:px-8 py-10">
-      <div className="max-w-6xl mx-auto space-y-6">
-        <div>
-          <button
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="max-w-6xl mx-auto space-y-6"
+      >
+        <motion.div variants={fadeUpVariants}>
+          <motion.button
+            whileHover={{ x: -4 }}
+            whileTap={{ scale: 0.95 }}
             onClick={() => navigate(-1)}
             className="flex items-center gap-2 px-4 py-2 bg-[#1f2937] hover:bg-gray-800 text-gray-300 rounded-xl border border-gray-700 transition-all cursor-pointer shadow-sm"
           >
@@ -57,20 +94,26 @@ const CarDetails = () => {
               className="rotate-180 filter invert w-4 h-4"
             />
             Back to all Cars
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
           <div className="lg:col-span-2 space-y-6">
-            <div className="overflow-hidden rounded-2xl bg-[#111827] border border-gray-800 shadow-xl">
+            <motion.div
+              variants={fadeUpVariants}
+              className="overflow-hidden rounded-2xl bg-[#111827] border border-gray-800 shadow-xl"
+            >
               <img
                 src={car.image}
                 alt=""
                 className="w-full h-65 sm:h-80 object-cover"
               />
-            </div>
+            </motion.div>
 
-            <div className="bg-[#111827]/80 backdrop-blur-md p-6 rounded-2xl border border-gray-800 shadow-xl space-y-4">
+            <motion.div
+              variants={fadeUpVariants}
+              className="bg-[#111827]/80 backdrop-blur-md p-6 rounded-2xl border border-gray-800 shadow-xl space-y-4"
+            >
               <div>
                 <h1 className="text-2xl sm:text-3xl font-bold text-white">
                   {car.brand} {car.model}
@@ -90,8 +133,9 @@ const CarDetails = () => {
                   { icon: assets.car_icon, text: `${car.transmission}` },
                   { icon: assets.location_icon, text: `${car.location}` },
                 ].map(({ icon, text }) => (
-                  <div
+                  <motion.div
                     key={text}
+                    whileHover={{ scale: 1.03 }}
                     className="flex items-center gap-3 bg-[#1f2937]/50 p-3 rounded-xl border border-gray-800"
                   >
                     <img
@@ -102,19 +146,25 @@ const CarDetails = () => {
                     <span className="text-xs sm:text-sm font-medium text-gray-300">
                       {text}
                     </span>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
-            <div className="bg-[#111827]/80 backdrop-blur-md p-6 rounded-2xl border border-gray-800 shadow-xl space-y-3">
+            <motion.div
+              variants={fadeUpVariants}
+              className="bg-[#111827]/80 backdrop-blur-md p-6 rounded-2xl border border-gray-800 shadow-xl space-y-3"
+            >
               <h2 className="text-lg font-bold text-white">Description</h2>
               <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
                 {car.description}
               </p>
-            </div>
+            </motion.div>
 
-            <div className="bg-[#111827]/80 backdrop-blur-md p-6 rounded-2xl border border-gray-800 shadow-xl space-y-4">
+            <motion.div
+              variants={fadeUpVariants}
+              className="bg-[#111827]/80 backdrop-blur-md p-6 rounded-2xl border border-gray-800 shadow-xl space-y-4"
+            >
               <h2 className="text-lg font-bold text-white">Features</h2>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {[
@@ -127,8 +177,9 @@ const CarDetails = () => {
                   "All Wheel Drive(AWD)",
                   "Leather uphoistery",
                 ].map((item) => (
-                  <li
+                  <motion.li
                     key={item}
+                    whileHover={{ x: 3 }}
                     className="flex items-center gap-3 text-sm text-gray-300 bg-[#1f2937]/40 px-3.5 py-2.5 rounded-xl border border-gray-800"
                   >
                     <img
@@ -137,13 +188,16 @@ const CarDetails = () => {
                       className="w-4 h-4 filter invert shrink-0"
                     />
                     <span>{item}</span>
-                  </li>
+                  </motion.li>
                 ))}
               </ul>
-            </div>
+            </motion.div>
           </div>
 
-          <div className="lg:col-span-1 sticky top-24">
+          <motion.div
+            variants={sideCardVariants}
+            className="lg:col-span-1 sticky top-24"
+          >
             <div className="bg-[#111827] p-6 sm:p-7 rounded-2xl border border-gray-800 shadow-2xl space-y-6">
               <div className="pt-2">
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -169,11 +223,11 @@ const CarDetails = () => {
                       id="pickup-date"
                       value={pickupDate}
                       min={new Date().toISOString().split("T")[0]}
-                      onChange={(e)=>{
+                      onChange={(e) => {
                         const newPickup = e.target.value;
-                        setPickupDate(newPickup)
+                        setPickupDate(newPickup);
                         if (returnDate && returnDate < newPickup) {
-                          setReturnDate('')
+                          setReturnDate("");
                         }
                       }}
                       style={{ colorScheme: "dark" }}
@@ -193,19 +247,21 @@ const CarDetails = () => {
                       required
                       id="return-date"
                       value={returnDate}
-                      onChange={(e)=>setReturnDate(e.target.value)}
-                      min={pickupDate || new Date().toISOString().split('T')[0]}
+                      onChange={(e) => setReturnDate(e.target.value)}
+                      min={pickupDate || new Date().toISOString().split("T")[0]}
                       style={{ colorScheme: "dark" }}
                       className="w-full bg-slate-900 border border-slate-700 text-slate-100 text-sm rounded-xl px-4 py-2.5 focus:outline-none focus:border-amber-400 transition cursor-pointer"
                     />
                   </div>
 
-                  <button
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                     onSubmit={handleSubmit}
                     className="w-full mt-2 py-3.5 bg-amber-500 hover:bg-amber-400 text-gray-950 font-bold rounded-xl transition-all shadow-lg cursor-pointer"
                   >
                     Book Now
-                  </button>
+                  </motion.button>
 
                   <p className="text-center text-xs text-gray-500 pt-1">
                     No credit card required to reserve
@@ -213,9 +269,9 @@ const CarDetails = () => {
                 </form>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </div>
   ) : (
     <Loader />
