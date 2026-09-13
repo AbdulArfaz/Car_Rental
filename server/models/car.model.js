@@ -50,6 +50,10 @@ const carSchema = new Schema({
     type: Boolean,
     default: true
   },
+  pricePerDay:{
+    type: Number,
+    required: true
+  }
 },{ timestamps: true });
 
 

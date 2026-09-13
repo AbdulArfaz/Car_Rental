@@ -1,16 +1,76 @@
 import React, { useEffect, useState } from "react";
-import { assets, CarData } from "../../assets/assets";
+import { assets } from "../../assets/assets";
+import { useAppContext } from "../../context/AppContext";
+import { toast } from "sonner";
 
 const ManageCars = () => {
+  const { isOwner, axios, currency } = useAppContext();
+
   const [cars, setCars] = useState([]);
-  const currency = import.meta.env.VITE_CURRENCY;
+
   const fetchOwnerCars = async () => {
-    setCars(CarData);
+    try {
+      const { data } = await axios.get("/api/owner/cars", {
+        withCredentials: true,
+      });
+      if (data.success) {
+        setCars(data.data);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.message);
+    }
+  };
+
+  const toggleAvailability = async (carId) => {
+    try {
+      const { data } = await axios.post(
+        "/api/owner/toggle-car",
+        { carId },
+        {
+          withCredentials: true,
+        }
+      );
+      if (data.success) {
+        toast.success(data.message);
+        fetchOwnerCars();
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.message);
+    }
+  };
+
+  const deleteCar = async (carId) => {
+    const confirm = window.confirm("Are you sure you want to delete this car?");
+    if (!confirm) {
+      return null;
+    }
+
+    try {
+      const { data } = await axios.post(
+        "/api/owner/delete-car",
+        { carId },
+        {
+          withCredentials: true,
+        }
+      );
+      if (data.success) {
+        toast.success(data.message);
+        fetchOwnerCars();
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || error.message);
+    }
   };
 
   useEffect(() => {
-    fetchOwnerCars();
-  }, []);
+    isOwner && fetchOwnerCars();
+  }, [isOwner]);
 
   return (
     <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8">
@@ -47,8 +107,8 @@ const ManageCars = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-cyan-100">
-              {cars.map((car, index) => (
-                <tr key={index} className="hover:bg-white/50 transition-all">
+              {cars?.map((car, index) => (
+                <tr key={car._id} className="hover:bg-white/50 transition-all">
                   <td className="py-4 px-4">
                     <div className="flex items-center gap-3">
                       <img
@@ -88,6 +148,7 @@ const ManageCars = () => {
                     <div className="flex items-center gap-3">
                       <div className="p-3 bg-cyan-200/90 hover:bg-cyan-300 border border-cyan-300 rounded-2xl transition-all cursor-pointer shadow-md flex items-center justify-center">
                         <img
+                          onClick={() => toggleAvailability(car._id)}
                           src={
                             car.isAvailable
                               ? assets.eye_close_icon
@@ -99,6 +160,7 @@ const ManageCars = () => {
                       </div>
                       <div className="p-3 bg-red-200/90 hover:bg-red-300 border border-red-300 rounded-2xl transition-all cursor-pointer shadow-md flex items-center justify-center">
                         <img
+                          onClick={() => deleteCar(car._id)}
                           src={assets.delete_icon}
                           alt="delete"
                           className="w-8 h-8 object-contain brightness-0"

@@ -1,8 +1,18 @@
 import React, { useState } from "react";
 import { assets, cityList } from "../assets/assets";
+import { useAppContext } from "../context/AppContext";
 
 const Hero = () => {
-  const [pickup, setPickup] = useState();
+  
+  const [pickup, setPickup] = useState('');
+  
+ const {pickupDate, setPickupDate, returnDate, setReturnDate, navigate} = useAppContext()
+
+  const handleSearch = (e) =>{
+    e.preventDefault()
+    navigate('/cars?pickup=' + pickup + '&pickupDate=' + pickupDate + '&returnDate=' + returnDate)
+
+  }
 
   return (
     <div className="relative bg-slate-900 text-slate-100 min-h-[85vh] flex items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8 py-12">
@@ -26,7 +36,7 @@ const Hero = () => {
             </p>
           </div>
 
-          <form className="w-full bg-slate-800/90 backdrop-blur-md border border-slate-700/80 p-4 sm:p-6 rounded-2xl shadow-xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
+          <form onSubmit={handleSearch} className="w-full bg-slate-800/90 backdrop-blur-md border border-slate-700/80 p-4 sm:p-6 rounded-2xl shadow-xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
             <div className="flex flex-col space-y-1.5">
               <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider">
                 Pickup Location
@@ -57,6 +67,8 @@ const Hero = () => {
               </label>
               <input
                 type="date"
+                value={pickupDate}
+                onChange={(e)=>setPickupDate(e.target.value)}
                 id="pickup-date"
                 min={new Date().toISOString().split("T")[0]}
                 required
@@ -74,6 +86,8 @@ const Hero = () => {
               </label>
               <input
                 type="date"
+                 value={returnDate}
+                onChange={(e)=>setReturnDate(e.target.value)}
                 id="return-date"
                 required
                 style={{ colorScheme: "dark" }}

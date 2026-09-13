@@ -63,6 +63,7 @@ export const addCar = asyncHandler(async (req, res) => {
 
   const car = await Car.create({
     ...carData,
+    pricePerDay: carData.pricePerDay,
     image: optimizedImageURL,
     owner: _id,
   });

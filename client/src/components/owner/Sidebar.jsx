@@ -40,7 +40,7 @@ const Sidebar = () => {
                 image
                   ? URL.createObjectURL(image)
                   : user?.image ||
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSToP5rz4ky9W48eSf3kQ8gDA_b7fyyjP68Eg&s"
+                    assets.users_icon
               }
               alt="Profile"
               className="w-20 h-20 rounded-full object-cover ring-2 ring-cyan-500/40 shadow-md group-hover:opacity-90 transition"

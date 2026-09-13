@@ -15,7 +15,7 @@ const CarCard = ({ car }) => {
     >
      
       <div className="p-4 pb-0 flex items-center justify-between z-10">
-        {car.isAvaliable ? (
+        {car.isAvailable ? (
           <span className="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs 
           font-semibold px-2.5 py-1 rounded-full backdrop-blur-md">
             Available Now

@@ -187,7 +187,7 @@ export const refreshAccessToken = asyncHandler(async (req, res) => {
 });
 
 export const getCars = asyncHandler(async (req, res) => {
-  const cars = await Car.find({ isAvailable: true });
+  const cars = await Car.find();
 
   return res
     .status(200)

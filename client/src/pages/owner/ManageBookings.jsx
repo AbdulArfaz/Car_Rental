@@ -1,12 +1,38 @@
 import React, { useEffect, useState } from "react";
-import { myBookingsData } from "../../assets/assets";
+import { toast } from "sonner";
+import { useAppContext } from '../../context/AppContext'
 
 const ManageBookings = () => {
+
+  const {currency, axios } = useAppContext()
   const [bookings, setBookings] = useState([]);
-  const currency = import.meta.env.VITE_CURRENCY;
+ 
   const fetchOwnerBookings = async () => {
-    setBookings(myBookingsData);
+    try {
+      const { data } = await axios.get('/api/bookings/owner',{withCredentials: true})
+      if (data.success) {
+        setBookings(data.data)
+      } else {
+        toast.error(data.message)
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Cannot get bookings data")
+    }
   };
+
+   const changeBookingStatus = async (bookingId, status) => {
+    try {
+      const { data } = await axios.post('/api/bookings/change-status',{bookingId, status},{withCredentials: true})
+      if (data.success) {
+        fetchOwnerBookings()
+      } else {
+        toast.error(data.message)
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Cannot get bookings data")
+    }
+  };
+
   useEffect(() => {
     fetchOwnerBookings();
   }, []);
@@ -82,6 +108,7 @@ const ManageBookings = () => {
                   <td className="py-4 px-4">
                     {booking.status === "pending" ? (
                       <select
+                      onChange={(e)=>changeBookingStatus(booking._id, e.target.value)}
                         value={booking.status}
                         className="bg-white border border-cyan-300 rounded-xl px-3 py-1.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-cyan-400 shadow-sm cursor-pointer"
                       >

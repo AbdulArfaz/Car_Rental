@@ -27,16 +27,21 @@ const [cars, setCars ] = useState([])
 //function to check if user is logged in
 const fetchUser = async()=>{
     try {
-        const {data} = await axios.get('/api/users/get-data')
+        const {data} = await axios.get('/api/users/get-data',{
+            withCredentials: true
+        })
         if (data.success) {
-            setUser(data.user)
-            setIsOwner(data.user.role === 'owner')
+           setUser(data.user)
+           setIsOwner(data.user.role === 'owner')
         } else {
             navigate('/')
         }
     } catch (error) {
-        console.log('Auth check failed:', error)
-        toast.error(error?.response?.data?.message || "Failed to authenticate.Please Login Again")
+        setUser(null)
+        setIsOwner(false)
+        if (error.response?.status !== 401) {
+            toast.error(error.response?.data?.message || "Something went wrong")
+        }
     }
 }
 
@@ -44,9 +49,13 @@ const fetchUser = async()=>{
 const fetchCars = async () =>{
     try {
         const { data } = await axios.get('/api/users/cars')
-        data.success ? setCars(data.cars) : toast.error(data.message)
+        if (data.success) {
+            setCars(data.data || [])
+        } else {
+            toast.error(data.message)
+        }
     } catch (error) {
-        toast.error(error?.response?.data?.message || "Failed to fetch Cars")
+        toast.error(error.response?.data?.message || "Failed to fetch Cars")
     }
 }
 

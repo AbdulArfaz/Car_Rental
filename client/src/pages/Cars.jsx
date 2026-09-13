@@ -1,9 +1,54 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { assets, CarData } from "../assets/assets.js";
 import CarCard from "../components/CarCard.jsx";
+import { useSearchParams } from "react-router-dom";
+import { useAppContext } from "../context/AppContext.jsx";
+import { toast } from "sonner";
 
 const Cars = () => {
-  const [input, setInput] = useState("");
+
+ const [searchParams] = useSearchParams()
+ const pickupLocation = searchParams.get('pickupLocation')
+ const pickupDate = searchParams.get('pickupDate')
+ const returnDate = searchParams.get('returnDate')
+ const {cars, axios} = useAppContext()
+ const [input, setInput] = useState("");
+
+  const isSearchData = pickupLocation && pickupDate && returnDate
+  const [filteredCars, setFilteredCars] = useState([])
+
+
+  const displayCars = isSearchData 
+  ? filteredCars 
+  : cars.filter((car) => {
+      if (!input) return true;
+      const brand = car?.brand?.toLowerCase() || '';
+      const model = car?.model?.toLowerCase() || '';
+      const category = car?.category?.toLowerCase() || '';
+      const searchTerm = input.toLowerCase();
+
+      return brand.includes(searchTerm) || model.includes(searchTerm) || category.includes(searchTerm);
+    });
+
+  const searchCarAvailability = async ()=>{
+    const{ data } = await axios.post('/api/booking/check-availability',{
+      location: pickupLocation,
+      pickupDate,
+      returnDate
+      })
+    if (data.success) {
+      setFilteredCars(data.data)
+      if(data.data.length === 0){
+        toast('No cars Available')
+      }
+      return null
+    }
+  }
+  useEffect(()=>{
+     isSearchData && searchCarAvailability()
+  },[])
+
+  
 
   return (
     <div className="min-h-screen bg-linear-to-br from-[#0b0f19] via-[#111827] to-[#1f2937] text-white px-4 sm:px-6 lg:px-8 py-12">
@@ -41,12 +86,12 @@ const Cars = () => {
         <div className="space-y-6 pt-4">
           <p className="text-sm font-medium text-gray-400 tracking-wide uppercase">
             Showing{" "}
-            <span className="text-amber-400 font-bold">{CarData.length}</span>{" "}
+            <span className="text-amber-400 font-bold">{displayCars.length}</span>{" "}
             Cars
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {CarData.map((car, index) => (
+            {displayCars.map((car, index) => (
               <div
                 key={index}
                 className="transition-transform duration-300 hover:-translate-y-1"
