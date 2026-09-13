@@ -11,26 +11,30 @@ const Cars = () => {
  const pickupLocation = searchParams.get('pickupLocation')
  const pickupDate = searchParams.get('pickupDate')
  const returnDate = searchParams.get('returnDate')
- const {cars, axios} = useAppContext()
+ const {cars, axios, fetchCars} = useAppContext()
  const [input, setInput] = useState("");
 
   const isSearchData = pickupLocation && pickupDate && returnDate
   const [filteredCars, setFilteredCars] = useState([])
 
 
-  const displayCars = isSearchData 
-  ? filteredCars 
-  : cars.filter((car) => {
-      if (!input) return true;
-      const brand = car?.brand?.toLowerCase() || '';
-      const model = car?.model?.toLowerCase() || '';
-      const category = car?.category?.toLowerCase() || '';
-      const searchTerm = input.toLowerCase();
+ const displayCars = isSearchData
+  ? filteredCars
+  : cars
+      .filter((car) => {
+        if (!input) return true;
+        const brand = car?.brand?.toLowerCase() || '';
+        const model = car?.model?.toLowerCase() || '';
+        const category = car?.category?.toLowerCase() || '';
+        const searchTerm = input.toLowerCase();
 
-      return brand.includes(searchTerm) ||
-       model.includes(searchTerm) || 
-       category.includes(searchTerm);
-    }).slice(0, 6)
+        return (
+          brand.includes(searchTerm) ||
+          model.includes(searchTerm) ||
+          category.includes(searchTerm)
+        );
+      }) 
+      .slice(0, 6);
 
   const searchCarAvailability = async ()=>{
     const{ data } = await axios.post('/api/bookings/check-availability',{
@@ -49,6 +53,8 @@ const Cars = () => {
   useEffect(()=>{
      if (isSearchData) {
       searchCarAvailability()
+     } else if(fetchCars) {
+      fetchCars()
      }
   },[pickupLocation, pickupDate, returnDate])
 

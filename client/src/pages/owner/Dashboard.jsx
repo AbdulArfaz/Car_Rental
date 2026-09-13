@@ -115,8 +115,8 @@ const Dashboard = () => {
             Latest Customer Booking
           </p>
           <div className="space-y-3">
-            {data.recentBookings.map((booking, index) => {
-              const status = booking.status?.toLowerCase();
+            {data?.recentBookings?.slice(0, 6).map((booking, index) => {
+              const status = booking.status?.toLowerCase() || '';
 
               return (
                 <div
@@ -124,7 +124,7 @@ const Dashboard = () => {
                   className="flex items-center justify-between p-3.5 rounded-xl bg-white/90 border border-cyan-200 shadow-sm hover:bg-white transition-all"
                 >
                   <div className="flex items-center gap-3">
-                    {/* Dynamic Icon Container */}
+                   
                     <div
                       className={`w-10 h-10 rounded-xl flex items-center justify-center p-2.5 shadow text-white ${
                         status === "cancelled"
@@ -155,7 +155,7 @@ const Dashboard = () => {
                       {currency}
                       {booking.price}
                     </p>
-                    {/* Dynamic Status Badge */}
+                   
                     <span
                       className={`text-xs px-2.5 py-0.5 rounded-full font-bold inline-block mt-0.5 capitalize border ${
                         status === "cancelled"

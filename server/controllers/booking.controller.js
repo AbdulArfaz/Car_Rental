@@ -6,10 +6,17 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 
 export const checkAvailability = async (carId, pickupDate, returnDate) => {
   try {
+      const  pickup = new Date(pickupDate);
+     const returned = new Date(returnDate) ;
     const bookings = await Booking.find({
       car: carId,
-      pickupDate: { $lte: new Date(returnDate) },
-      returnDate: { $gte: new Date(pickupDate) },
+      status: {$in: ["confirmed", "pending"]},
+      $or: [
+        {
+        pickupDate: { $lte: returned},
+        returnDate: {$gte: pickup},
+        },
+      ],
     });
     return bookings.length === 0;
   } catch (error) {
@@ -68,6 +75,9 @@ export const createBooking = asyncHandler(async (req, res) => {
   if (!carData) {
     throw new ApiError(404, "Car not found");
   }
+  if (!carData.isAvailable) {
+    throw new ApiError(400, "This Car is currrently marked as unavailable for booking")
+  }
   const picked = new Date(pickupDate);
   const returned = new Date(returnDate);
   const noOfDays = Math.ceil((returned - picked) / (1000 * 60 * 60 * 24));
@@ -107,12 +117,15 @@ export const getOwnerBookings = asyncHandler(async (req, res) => {
   }
 
   const bookings = await Booking.find({ owner: req.user._id })
+  .sort({ createdAt: -1 })
     .populate("car")
+    .limit(6)
     .populate({
       path: "user",
       select: "-password -refreshToken",
     })
-    .sort({ createdAt: -1 });
+    
+   
 
   return res
     .status(200)

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Title from "./Title";
 import CarCard from "./CarCard";
@@ -7,8 +7,14 @@ import { useAppContext } from "../context/AppContext.jsx";
 
 const FeaturedSection = () => {
 
-  const {cars} = useAppContext()
+  const {cars, fetchCars } = useAppContext()
   const navigate = useNavigate();
+
+  useEffect(()=>{
+    if (fetchCars) {
+      fetchCars()
+    }
+  },[])
 
   return (
     <div className="bg-slate-950 text-slate-100 py-16 px-4 sm:px-6 lg:px-8">
