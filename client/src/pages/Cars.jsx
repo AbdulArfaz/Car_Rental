@@ -33,7 +33,7 @@ const Cars = () => {
             category.includes(searchTerm)
           );
         })
-        .slice(0, 6);
+        .slice(0, 20);
 
   const searchCarAvailability = async () => {
     const { data } = await axios.post("/api/bookings/check-availability", {

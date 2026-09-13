@@ -13,7 +13,7 @@ export const changeRoleToOwner = asyncHandler(async (req, res) => {
   const updatedUser = await User.findByIdAndUpdate(
     _id,
     { role: "owner" },
-    { new: true }
+    { returnDocument: "after" }
   ).select("-password -refreshToken");
 
   if (!updatedUser) {
@@ -210,7 +210,7 @@ export const updateUserImage = asyncHandler(async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
         _id,
         { image: optimizedImageURL },
-        { new: true }
+        { returnDocument: "after" }
     ).select("-password -refreshToken");
 
     if (!updatedUser) {

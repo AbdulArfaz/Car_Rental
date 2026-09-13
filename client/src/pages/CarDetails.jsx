@@ -105,7 +105,7 @@ const CarDetails = () => {
               <img
                 src={car.image}
                 alt=""
-                className="w-full h-65 sm:h-80 object-cover"
+                className="w-full h-65 sm:h-80 object-contain"
               />
             </motion.div>
 

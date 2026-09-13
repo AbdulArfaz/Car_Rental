@@ -51,7 +51,7 @@ const FeaturedSection = () => {
           viewport={{ once: true, amount: 0.4 }}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
         >
-          {cars?.slice(0, 4).map((car) => (
+          {cars?.slice(0, 8).map((car) => (
             <motion.div
               key={car._id}
               variants={cardVariants}
