@@ -4,7 +4,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import fs from "fs";
 import { Car } from "../models/car.model.js";
-import { client, uploadOnImageKit } from "../db/imagekit.js";
+import { client, uploadOnImageKit } from "../db/imageKit.js";
 import { Booking } from "../models/booking.model.js";
 
 export const changeRoleToOwner = asyncHandler(async (req, res) => {
