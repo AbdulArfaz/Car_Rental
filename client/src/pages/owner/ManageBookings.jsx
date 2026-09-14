@@ -1,36 +1,41 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { useAppContext } from '../../context/AppContext'
+import { useAppContext } from "../../context/AppContext";
 import { assets } from "../../assets/assets";
 
 const ManageBookings = () => {
-
-  const {currency, axios } = useAppContext()
+  const { currency, axios } = useAppContext();
   const [bookings, setBookings] = useState([]);
- 
+
   const fetchOwnerBookings = async () => {
     try {
-      const { data } = await axios.get('/api/bookings/owner',{withCredentials: true})
+      const { data } = await axios.get("/api/bookings/owner", {
+        withCredentials: true,
+      });
       if (data.success) {
-        setBookings(data.data)
+        setBookings(data.data);
       } else {
-        toast.error(data.message)
+        toast.error(data.message);
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || "Cannot get bookings data")
+      toast.error(error.response?.data?.message || "Cannot get bookings data");
     }
   };
 
-   const changeBookingStatus = async (bookingId, status) => {
+  const changeBookingStatus = async (bookingId, status) => {
     try {
-      const { data } = await axios.post('/api/bookings/change-status',{bookingId, status},{withCredentials: true})
+      const { data } = await axios.post(
+        "/api/bookings/change-status",
+        { bookingId, status },
+        { withCredentials: true }
+      );
       if (data.success) {
-        fetchOwnerBookings()
+        fetchOwnerBookings();
       } else {
-        toast.error(data.message)
+        toast.error(data.message);
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || "Cannot get bookings data")
+      toast.error(error.response?.data?.message || "Cannot get bookings data");
     }
   };
 
@@ -40,7 +45,10 @@ const ManageBookings = () => {
 
   return (
     <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto bg-linear-to-tr from-[#E0F7FA] via-[#B2EBF2] to-[#80DEEA] border border-cyan-300 rounded-3xl shadow-2xl p-6 sm:p-10 text-slate-900">
+      <div
+        className="max-w-6xl mx-auto bg-linear-to-tr from-[#E0F7FA] via-[#B2EBF2] to-[#80DEEA] border
+       border-cyan-300 rounded-3xl shadow-2xl p-6 sm:p-10 text-slate-900"
+      >
         <div className="mb-8">
           <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
             Manage Bookings & Reservations
@@ -55,19 +63,19 @@ const ManageBookings = () => {
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-cyan-200 bg-white/40">
-                <th className="py-4 px-4 text-xs font-black uppercase tracking-wider text-cyan-950">
+                <th className="py-4 px-4 text-xs font-black uppercase tracking-wider text-cyan-950 whitespace-nowrap">
                   Car
                 </th>
-                <th className="py-4 px-4 text-xs font-black uppercase tracking-wider text-cyan-950">
+                <th className="py-4 px-4 text-xs font-black uppercase tracking-wider text-cyan-950 whitespace-nowrap">
                   Date Range
                 </th>
-                <th className="py-4 px-4 text-xs font-black uppercase tracking-wider text-cyan-950">
+                <th className="py-4 px-4 text-xs font-black uppercase tracking-wider text-cyan-950 whitespace-nowrap">
                   Total
                 </th>
-                <th className="py-4 px-4 text-xs font-black uppercase tracking-wider text-cyan-950">
+                <th className="py-4 px-4 text-xs font-black uppercase tracking-wider text-cyan-950 whitespace-nowrap">
                   Payment
                 </th>
-                <th className="py-4 px-4 text-xs font-black uppercase tracking-wider text-cyan-950">
+                <th className="py-4 px-4 text-xs font-black uppercase tracking-wider text-cyan-950 whitespace-nowrap">
                   Actions
                 </th>
               </tr>
@@ -90,7 +98,7 @@ const ManageBookings = () => {
                     </div>
                   </td>
 
-                  <td className="py-4 px-4 text-sm font-medium text-slate-800">
+                  <td className="py-4 px-4 text-sm font-medium text-slate-800 whitespace-nowrap">
                     {booking.pickupDate.split("T")[0]} to{" "}
                     {booking.returnDate.split("T")[0]}
                   </td>
@@ -109,9 +117,12 @@ const ManageBookings = () => {
                   <td className="py-4 px-4">
                     {booking.status === "pending" ? (
                       <select
-                      onChange={(e)=>changeBookingStatus(booking._id, e.target.value)}
+                        onChange={(e) =>
+                          changeBookingStatus(booking._id, e.target.value)
+                        }
                         value={booking.status}
-                        className="bg-white border border-cyan-300 rounded-xl px-3 py-1.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-cyan-400 shadow-sm cursor-pointer"
+                        className="bg-white border border-cyan-300 rounded-xl px-3 py-1.5 text-sm font-medium 
+                         whitespace-nowrapfocus:outline-none focus:ring-2 focus:ring-cyan-400 shadow-sm cursor-pointer"
                       >
                         <option value="pending">Pending</option>
                         <option value="cancelled">Cancelled</option>
