@@ -20,7 +20,7 @@ const userSchema = new Schema(
     role: {
       type: String,
       enum: ["owner", "user"],
-      default: "user",
+      default: "owner",
     },
     image: {
       type: String,
