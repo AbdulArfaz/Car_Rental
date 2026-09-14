@@ -3,8 +3,8 @@ import { useAppContext } from "../context/AppContext";
 import { toast } from "sonner";
 
 const Login = () => {
-
-const {setShowLogin, axios, setToken, navigate, fetchUser} = useAppContext()
+  const { setShowLogin, axios, setToken, navigate, fetchUser } =
+    useAppContext();
 
   const [state, setState] = useState("login");
   const [name, setName] = useState("");
@@ -14,18 +14,19 @@ const {setShowLogin, axios, setToken, navigate, fetchUser} = useAppContext()
   const onSubmitHandler = async (e) => {
     try {
       e.preventDefault();
-      const payload = state === "register" ? { name, email, password} : { email, password }
-      const {data} = await axios.post(`/api/users/${state}`, payload)
+      const payload =
+        state === "register" ? { name, email, password } : { email, password };
+      const { data } = await axios.post(`/api/users/${state}`, payload);
       if (data.success) {
-        toast.success("Login successful! Now you can list cars")
-        setShowLogin(false)
-        navigate('/')
-        fetchUser()
+        toast.success("Login successful! Now you can list cars");
+        setShowLogin(false);
+        navigate("/");
+        fetchUser();
       } else {
-        toast.error(data.message)
+        toast.error(data.message);
       }
     } catch (error) {
-      toast.error(error?.response?.data?.message || error.message)
+      toast.error(error?.response?.data?.message || error.message);
     }
   };
 
