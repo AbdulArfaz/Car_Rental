@@ -64,8 +64,6 @@ const fetchCars = async () =>{
 const logout = async () => {
     try {
         const { data } = await axios.post('/api/users/logout'); // Update path if your route differs
-        
-       
             setUser(null);
             setIsOwner(false);
             toast.success("Logged out successfully");
