@@ -253,7 +253,7 @@ const AddCar = () => {
                 <option value="">Select a Location</option>
                 <option value="Tezpur">Tezpur</option>
                 <option value="Jorhat">Jorhat</option>
-                <option value="Guwahahti">Guwahahti</option>
+                <option value="Guwahahti">Guwahati</option>
                 <option value="Dibrugarh">Dibrugarh</option>
                 <option value="Nogaon">Nogaon</option>
                 <option value="Dhubri">Dhubri</option>
