@@ -6,7 +6,7 @@
 
 ## 🌐 Live Link
 
-*   *Live Application:* [View Live Application](https://car-rental-chi-livid.vercel.app)
+*   *Live Application:* [https://car-rental-chi-livid.vercel.app](https://car-rental-chi-livid.vercel.app)
 ---
 
 ## ✨ Core Features & Capabilities
