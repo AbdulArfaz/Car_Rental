@@ -85,7 +85,8 @@ const Dashboard = () => {
         {dashboardCards.map((card, index) => (
           <div
             key={index}
-            className={`${card.cardBg} border p-5 rounded-2xl shadow-xl flex items-center justify-between transition-all transform hover:-translate-y-1`}
+            className={`${card.cardBg} border p-5 rounded-2xl shadow-xl flex items-center
+             justify-between transition-all transform hover:-translate-y-1`}
           >
             <div>
               <h1 className="text-xs font-black uppercase tracking-wider text-cyan-950 opacity-90">
@@ -109,7 +110,8 @@ const Dashboard = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-        <div className="lg:col-span-2 bg-linear-to-tr from-[#E0F7FA] via-[#B2EBF2] to-[#80DEEA] border border-cyan-300 rounded-2xl p-6 shadow-xl text-slate-900">
+        <div className="lg:col-span-2 bg-linear-to-tr from-[#E0F7FA] via-[#B2EBF2] to-[#80DEEA] border border-cyan-300
+         rounded-2xl p-6 shadow-xl text-slate-900">
           <h1 className="text-lg font-bold text-slate-900">Recent Booking</h1>
           <p className="text-xs text-cyan-950 opacity-90 mb-4">
             Latest Customer Booking
@@ -121,7 +123,8 @@ const Dashboard = () => {
               return (
                 <div
                   key={booking._id || index}
-                  className="flex items-center justify-between p-3.5 rounded-xl bg-white/90 border border-cyan-200 shadow-sm hover:bg-white transition-all"
+                  className="flex items-center justify-between p-3.5 rounded-xl bg-white/90 border border-cyan-200 shadow-sm
+                   hover:bg-white transition-all"
                 >
                   <div className="flex items-center gap-3">
                    
@@ -174,7 +177,8 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="bg-linear-to-tr from-[#E1F5FE] via-[#B3E5FC] to-[#81D4FA] border border-sky-300 rounded-2xl p-6 shadow-xl flex flex-col justify-between text-slate-900">
+        <div className="bg-linear-to-tr from-[#E1F5FE] via-[#B3E5FC] to-[#81D4FA] border border-sky-300 rounded-2xl
+         p-6 shadow-xl flex flex-col justify-between text-slate-900">
           <div>
             <h1 className="text-lg font-bold text-slate-900">
               Monthly Revenue
@@ -188,7 +192,8 @@ const Dashboard = () => {
               {currency} {data.monthlyRevenue}
             </p>
           </div>
-          <div className="bg-white/90 border border-sky-200 rounded-xl p-4 text-xs text-slate-900 shadow-sm font-medium">
+          <div className="bg-white/90 border border-sky-200 rounded-xl p-4 text-xs
+           text-slate-900 shadow-sm font-medium">
             💡 Earnings update in real-time as new vehicle reservations are
             validated.
           </div>
