@@ -65,12 +65,12 @@ const logout = async () => {
     try {
         const { data } = await axios.post('/api/users/logout'); // Update path if your route differs
         
-        if (data.success) {
+       
             setUser(null);
             setIsOwner(false);
             toast.success("Logged out successfully");
             navigate('/');
-        }
+        
     } catch (error) {
         console.error("Logout failed:", error);
         toast.error(error?.response?.data?.message || "Failed to logout");
