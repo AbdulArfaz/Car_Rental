@@ -79,7 +79,8 @@ const handleKeyDown = (e) => {
   md:static md:top-auto md:right-auto md:left-auto md:h-auto md:w-auto md:bg-gray-100/80
   md:border md:border-borderColor/50 md:shadow-inner md:p-1.5 md:flex-row md:items-center
   md:rounded-full md:gap-1
-  ${open ? "scale-100 opacity-150 translate-y-0" : "scale-95 opacity-0 pointer-events-none md:pointer-events-auto translate-y-2"} md:translate-y-0 md:scale-100 md:opacity-100
+  ${open ? "scale-100 opacity-150 translate-y-0" : "scale-95 opacity-0 pointer-events-none md:pointer-events-auto translate-y-2"}
+   md:translate-y-0 md:scale-100 md:opacity-100
 `}
         >
           <div className="flex items-center justify-between md:hidden pb-4 border-b border-gray-100">
@@ -131,15 +132,29 @@ const handleKeyDown = (e) => {
 
           <div className="flex flex-col gap-2 pt-4 border-t border-gray-100 md:hidden">
             <button
-              onClick={() => (isOwner ? navigate("/owner") : changeRole())}
+              onClick={() => {
+                if (!user) {
+                  setShowLogin(true)
+                } else if (isOwner) {
+                  navigate('/owner')
+                } else {
+                  changeRole()
+                }
+              }}
               className="w-full py-2.5 rounded-full text-sm font-medium text-gray-700
                bg-gray-50 border border-borderColor text-center"
             >
-              {isOwner ? "Dashboard" : "List Cars"}
+              {user && isOwner ? "Dashboard" : "List Cars"}
             </button>
             <button
-              onClick={() => {
-                user ? logout() : setShowLogin(true);
+             onClick={() => {
+                if (!user) {
+                  setShowLogin(true)
+                } else if (isOwner) {
+                  navigate('/owner')
+                } else {
+                  changeRole()
+                }
               }}
               className="w-full py-2.5 rounded-full text-sm font-medium text-white bg-linear-to-r
                from-primary via-blue-600 to-indigo-600 shadow-md shadow-primary/25 text-center"

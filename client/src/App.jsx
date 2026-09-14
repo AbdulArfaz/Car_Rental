@@ -18,7 +18,7 @@ import ScrollToTop from './components/ScrollToTop'
 
 const App = () => {
 
-  const {showLogin} =useAppContext()
+  const {showLogin, token} =useAppContext()
   const isOwnerPath = useLocation().pathname.startsWith('/owner')
 
   return (
@@ -26,7 +26,7 @@ const App = () => {
     <ScrollToTop />
       <Toaster position='top-right' richColors toastOptions={{style: { marginTop: '70px'}}}/>
       {showLogin && <Login />}    
-      {!isOwnerPath && <Navbar />}
+      {!isOwnerPath && <Navbar token={token}/>}
 
      <Routes>
       <Route path='/' element={<Home/>}/>
