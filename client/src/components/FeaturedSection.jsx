@@ -48,7 +48,7 @@ const FeaturedSection = () => {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.4 }}
+          viewport={{ once: true, margin: "-50px" }}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
         >
           {cars?.slice(0, 8).map((car) => (
@@ -70,7 +70,9 @@ const FeaturedSection = () => {
               navigate("/cars");
               scrollTo(0, 0);
             }}
-            className="group flex items-center space-x-3 bg-slate-900 border border-slate-700 hover:border-amber-400 text-slate-200 hover:text-amber-400 px-6 py-3 rounded-xl font-medium transition-all duration-300 shadow-md cursor-pointer"
+            className="group flex items-center space-x-3 bg-slate-900 border border-slate-700 hover:border-amber-400
+             text-slate-200 hover:text-amber-400 px-6 py-3 rounded-xl font-medium transition-all duration-300 shadow-md 
+             cursor-pointer"
           >
             <span>Explore all Cars</span>
             <img
