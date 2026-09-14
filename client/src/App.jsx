@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Navbar from './components/Navbar'
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import Home from './pages/Home'
 import CarDetails from './pages/CarDetails'
 import Cars from './pages/Cars'
@@ -18,7 +18,7 @@ import ScrollToTop from './components/ScrollToTop'
 
 const App = () => {
 
-  const {showLogin, token} =useAppContext()
+  const {showLogin, user} =useAppContext()
   const isOwnerPath = useLocation().pathname.startsWith('/owner')
 
   return (
@@ -26,7 +26,7 @@ const App = () => {
     <ScrollToTop />
       <Toaster position='top-right' richColors toastOptions={{style: { marginTop: '70px'}}}/>
       {showLogin && <Login />}    
-      {!isOwnerPath && <Navbar token={token}/>}
+      {!isOwnerPath && <Navbar/>}
 
      <Routes>
       <Route path='/' element={<Home/>}/>
@@ -34,7 +34,7 @@ const App = () => {
       <Route path='/cars' element={<Cars/>}/>
       <Route path='/my-bookings' element={<MyBookings/>}/>
 
-      <Route path='/owner' element={<Layout />}>
+      <Route path='/owner' element={ user ? <Layout /> : <Navigate to="/" />}>
       <Route index element={<Dashboard />} />
       <Route path='add-car' element={<AddCar />} />
       <Route path='manage-cars' element={<ManageCars />} />
