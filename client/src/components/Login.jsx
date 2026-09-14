@@ -14,7 +14,7 @@ const {setShowLogin, axios, setToken, navigate, fetchUser} = useAppContext()
   const onSubmitHandler = async (e) => {
     try {
       e.preventDefault();
-      const payload = state = "register" ? { name, email, password} : { email, password }
+      const payload = state === "register" ? { name, email, password} : { email, password }
       const {data} = await axios.post(`/api/users/${state}`, payload)
       if (data.success) {
         toast.success("Login successful! Now you can list cars")
