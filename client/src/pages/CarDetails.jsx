@@ -25,12 +25,8 @@ const CarDetails = () => {
         pickupDate,
         returnDate,
       });
-      if (data.success) {
-        toast.success(data.message);
+        toast.success(data.message || "Car booked Successfully!");
         navigate("/my-bookings");
-      } else {
-        toast.error(data.message || data.error);
-      }
     } catch (error) {
       toast.error(
         error.response?.data?.message || "Cannot Book The Car, Try Again"
