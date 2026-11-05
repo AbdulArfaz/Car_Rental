@@ -147,14 +147,13 @@ const handleKeyDown = (e) => {
               {user && isOwner ? "Dashboard" : "List Cars"}
             </button>
             <button
-             onClick={() => {
-                if (!user) {
-                  setShowLogin(true)
-                } else if (isOwner) {
-                  navigate('/owner')
+             onClick={async() => {
+                if (user) {
+                  await logout()
                 } else {
-                  changeRole()
+                  setShowLogin(true)
                 }
+                setOpen(false);
               }}
               className="w-full py-2.5 rounded-full text-sm font-medium text-white bg-linear-to-r
                from-primary via-blue-600 to-indigo-600 shadow-md shadow-primary/25 text-center"
