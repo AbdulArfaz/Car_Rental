@@ -76,7 +76,6 @@ const logout = async () => {
 };
 
 
-//hook to fetch user data when token is available
 useEffect(()=>{
 fetchUser();
 fetchCars()
